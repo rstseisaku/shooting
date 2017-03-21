@@ -9,5 +9,6 @@ public:
 	void InitCommon(const TCHAR * FileName);
 
 	int GraphicHandle; // 画像データのハンドル
+	double Angle;
 };
 

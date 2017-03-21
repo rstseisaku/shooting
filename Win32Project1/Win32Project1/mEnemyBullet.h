@@ -7,5 +7,6 @@ public:
 	void MyDraw();
 	~mEnemyBullet();
 	void MyPeculiarAction(BaseObject * obj);
+	bool ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D * Elp);
 };
 

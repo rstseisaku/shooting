@@ -37,6 +37,7 @@
 
 #define WindowSizeX 1024
 #define WindowSizeY 576
+#define M_PI 3.1415926535
 
 /*
 * 背景管理オブジェクト ⇒ 背景			 Layer = (0)

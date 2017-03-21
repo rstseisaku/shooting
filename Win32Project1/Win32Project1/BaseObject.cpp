@@ -38,7 +38,7 @@ double BaseObject::GetCenterY()
 
 double BaseObject::GetDrawX()
 {
-	return CenterX - WidthX/2;
+	return CenterX - WidthX / 2;
 }
 
 double BaseObject::GetDrawY()

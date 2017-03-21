@@ -34,6 +34,7 @@ Bullet2::~Bullet2()
 void Bullet2::MyUpdate() {	
 	CenterX += cos(Angle) * Speed;
 	CenterY += sin(Angle) * Speed;
+	Angle += M_PI / 360;
 }
 
 void Bullet2::MyDraw() {
@@ -49,7 +50,7 @@ void Bullet2::MyDraw() {
 		GrHandle　 : 描画するグラフィックの識別番号（グラフィックハンドル）
 		TransFlag　 : 透過色が有効か、フラグ（TRUEで有効FALSEで無効）
 	*/
-	DrawRotaGraph((int)GetDrawX(), (int)GetDrawY(), 1.0, Angle,
+	DrawRotaGraph((int)CenterX , (int)CenterY, 1.0,  Angle,
 		GraphicHandle, true);
 }
 
