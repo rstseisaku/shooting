@@ -14,7 +14,9 @@ mEnemyBullet::mEnemyBullet()
 	// for (int i = 0; i < 10; i++) {
 	// 	AddObject(new Bullet2(_T("Image/bullet2.png"), 200, 200, i * 36, 100));
 	// }
-	AddObject(new Bullet2(_T("Image/bullet3.png"), 300, 300, 0, 0));
+	AddObject(new Bullet2(_T("Image/bullet3.png"), 300, 300, 0, 0, (int)ADD, 127));
+	AddObject(new Bullet2(_T("Image/bullet3.png"), 400, 300, 0, 0, (int)ADD, 127));
+	// AddObject(new Bullet2(_T("Image/bullet3.png"), 255, 255, 0, 0));
 }
 
 void mEnemyBullet::MyUpdate()
@@ -28,7 +30,11 @@ void mEnemyBullet::MyUpdate()
 void mEnemyBullet::MyDraw()
 {
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
-		if ((*itr)->ObjectDeleteFlag) continue;
+		if ((*itr)->ObjectDeleteFlag) {
+			// delete( (*itr) );
+			// ObjectList.erase(itr);
+			continue;
+		}
 		(*itr)->MyDraw();
 	}
 }
@@ -48,7 +54,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 
 		if ( ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr) ) ) {
 			// 衝突
-			// (*itr)->ObjectDelete();
+			(*itr)->ObjectDelete();
 			DrawFormatString(5, 5, GetColor(0, 255, 255), _T("HIT!")); // 文字を描画する
 
 			// 当たったアブジェクト全てに対してHitを呼び出す(引数に対象イテレタ)も

@@ -54,7 +54,7 @@ void PlayerObject::MyDraw()
 		AnimationCounter = 0;
 	}
 
-	DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
+	// DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {

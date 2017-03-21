@@ -27,6 +27,18 @@ Bullet2::Bullet2(const TCHAR * FileName, int _x, int _y, int _Angle, int _Speed)
 	CenterY = _y;
 }
 
+Bullet2::Bullet2(const TCHAR * FileName, int _x, int _y, int _Angle, int _Speed, 
+				 int _Mode, int _Transparency )
+{
+	InitCommon(FileName); // 画像ハンドル WidthX HeightYの算出
+	Angle = _Angle;
+	Speed = _Speed / 60;
+	CenterX = _x;
+	CenterY = _y;
+	Mode = _Mode;
+	Transparency = _Transparency;
+}
+
 Bullet2::~Bullet2()
 {
 }
@@ -50,8 +62,24 @@ void Bullet2::MyDraw() {
 		GrHandle　 : 描画するグラフィックの識別番号（グラフィックハンドル）
 		TransFlag　 : 透過色が有効か、フラグ（TRUEで有効FALSEで無効）
 	*/
+
+	/*
+	//乗算済みアルファ用のアルファブレンド
+    DX_BLENDMODE_PMA_ALPHA
+
+    // 乗算済みアルファ用の加算ブレンド
+    DX_BLENDMODE_PMA_ADD
+
+    // 乗算済みアルファ用の減算ブレンド
+    DX_BLENDMODE_PMA_SUB
+	*/
+
+	Transparency = 127;
+	SetDrawBlendMode(DX_BLENDMODE_PMA_ADD, Transparency);
 	DrawRotaGraph((int)CenterX , (int)CenterY, 1.0,  Angle,
 		GraphicHandle, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
 }
 
 void Bullet2::MyPeculiarAction(BaseObject * obj)

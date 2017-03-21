@@ -148,6 +148,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BackGround.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseObject2D.h" />
     <ClInclude Include="Bullet.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Win32Project1.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseObject2D.cpp" />
     <ClCompile Include="Bullet.cpp" />

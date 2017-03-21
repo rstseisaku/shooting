@@ -21,6 +21,7 @@ mGameObject::mGameObject()
 	AddObject(new mEnemyBullet()); // 敵弾管理オブジェクト
 	AddObject(new PlayerDecorationObject(_T("Image/PDObject.png"))); // プレイヤーデコレートオブジェクト
 	AddObject(new PlayerObject(_T("Image/PlayerObject.png"), 0, 0)); // プレイヤーオブジェクト
+	AddObject(new BackGround(_T("Image/BackGround1.png"), 512, 512)); // 背景オブジェクト
 
 	ObjectList.sort( &comp );
 }
@@ -37,6 +38,7 @@ void mGameObject::MyUpdate()
 		if ( (*itr)->ObjectDeleteFlag ) continue;
 		(*itr)->MyUpdate();
 	}
+	DrawFormatString(5, 85, GetColor(0, 255, 255), _T("OK")); // 文字を描画する
 
 	// 衝突判定を行う
 	// カテゴリを探すだけなので、実処理以外はそこまで重くないはず
@@ -47,6 +49,7 @@ void mGameObject::MyUpdate()
 		// プレイヤーオブジェクトを見つけたら(1つのみ)
 		int ObjectLayer = (*PlayerItr)->Layer;
 		if (ObjectLayer == Layer_PlayerObject) {
+
 			// 弾オブジェクトとの衝突判定を行う
 			for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 				if ( (*itr)->ObjectDeleteFlag ) continue;

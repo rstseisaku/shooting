@@ -30,6 +30,7 @@
 #include "mGameObject.h"
 #include "KeyControl.h"
 #include "mGraphic.h"
+#include "BackGround.h"
 #include "mEnemyBullet.h"
 #include "Bullet.h"
 #include "Bullet2.h"
@@ -53,6 +54,8 @@
 #define Layer_PlayerDecorationObject 20
 #define Layer_PlayerShot 1
 #define Layer_BackGround 0
+
+enum CompositeMode { NORMAL = DX_BLENDMODE_PMA_ALPHA, ADD = DX_BLENDMODE_PMA_ADD, SUB = DX_BLENDMODE_PMA_SUB};
 
 // グローバル変数として，画像管理オブジェクトを 1 つだけ保持
 extern mGraphic* _gl_mGraphicObject;
