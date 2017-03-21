@@ -3,8 +3,6 @@
 
 Bullet::Bullet()
 {
-	// 画像のない弾オブジェクト
-	// 編集テスト! 2017_0321_1517
 }
 
 
@@ -42,13 +40,6 @@ Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY, int _vx, int 
 
 Bullet::~Bullet()
 {
-}
-
-// 「全てのオブジェクトが画像を持つ」と設計すれば、
-// この処理は「ベースオブジェクト」に移せる
-void Bullet::InitCommon(const TCHAR *FileName) {
-	GraphicHandle = _gl_mGraphicObject->MyLoadGraphic(FileName);
-	GetGraphSize(GraphicHandle, &WidthX, &HeightY);
 }
 
 void Bullet::MyUpdate()

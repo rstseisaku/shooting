@@ -15,6 +15,7 @@
 #include "DxLib.h"
 #include <cstdio>
 #include <cstdlib>
+#include <cmath>
 
 #include <vector>
 #include <list>
@@ -23,6 +24,7 @@
 #include <algorithm>
 
 #include "BaseObject.h"
+#include "BaseObject2D.h"
 #include "PlayerObject.h"
 #include "PlayerDecorationObject.h"
 #include "mGameObject.h"
@@ -30,6 +32,7 @@
 #include "mGraphic.h"
 #include "mEnemyBullet.h"
 #include "Bullet.h"
+#include "Bullet2.h"
 
 
 #define WindowSizeX 1024

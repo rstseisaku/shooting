@@ -4,10 +4,15 @@ mEnemyBullet::mEnemyBullet()
 {
 	Layer = Layer_EnemyBullet;
 
-	// AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 0));
-	// AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, -3, 0));
-	// AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 3));
-	// AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 0, 0));
+	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 0));
+	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, -3, 0));
+	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 3));
+	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 0, 0));
+
+	// for (int i = 0; i < 10; i++) {
+	// 	AddObject(new Bullet2(_T("Image/bullet2.png"), 200, 200, i * 36, 100));
+	// }
+	AddObject(new Bullet2(_T("Image/bullet3.png"), 300, 300, 0, 0));
 }
 
 void mEnemyBullet::MyUpdate()
@@ -47,10 +52,6 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 		double TargetObjectRadiusY = (*itr)->HeightY * 45 / 100;
 		double Distance = std::pow(PlayerObjectCenterX - TargetObjectCenterX, 2.0)
 			+ std::pow(PlayerObjectCenterY - TargetObjectCenterY, 2.0);
-
-		DrawFormatString(120, 155, GetColor(0, 255, 255), _T("%f"), Distance); // •¶Žš‚ð•`‰æ‚·‚é
-		DrawFormatString(120, 167, GetColor(0, 255, 255), _T("x,y = %f,%f"), TargetObjectCenterX, TargetObjectCenterY); // •¶Žš‚ð•`‰æ‚·‚é
-		DrawFormatString(120, 179, GetColor(0, 255, 255), _T("rx,ry = %f,%f"), TargetObjectRadiusX, TargetObjectRadiusY); // •¶Žš‚ð•`‰æ‚·‚é
 
 		if (Distance <= std::pow(TargetObjectRadiusX, 2.0)) {
 			// Õ“Ë
