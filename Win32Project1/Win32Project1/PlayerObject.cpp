@@ -27,7 +27,8 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 	GraphicPattern = 10;
 
 	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
-	RemainingPlayer = 3;
+	Life = 3;
+	InvincibleTime = 0;
 
 	Layer = Layer_PlayerObject;
 }
@@ -35,7 +36,6 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 void PlayerObject::MyUpdate() 
 {
 	int Speed = 5;
-	// Speed = +GetRand(15);
 	if (_gl_KeyControlObject->Key[KEY_INPUT_LSHIFT] >= 1) Speed /= 3;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_RIGHT] >= 1) CenterX += Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_LEFT] >= 1) CenterX -= Speed;
@@ -50,8 +50,17 @@ void PlayerObject::MyUpdate()
 
 void PlayerObject::MyDraw()
 {
-	// DrawFormatString(LeftX, UpperY, GetColor(0, 255, 255), _T("handle %d (%.0f, %.0f)"), GraphicHandle[0], LeftX, UpperY ); // •¶Žš‚ð•`‰æ‚·‚é
+	SetDrawBlendMode(NORMAL, 255);
+	if (InvincibleTime > 0) 
+	{
+		InvincibleTime--;
+		if (InvincibleTime > 60) {
+			SetDrawBlendMode(NORMAL, 127);
+		}
+	}
 	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle[GraphicPattern], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
 	if (++AnimationCounter == AnimationInterval) {
 		if (++AnimationCounter == 12) {
 			AnimationCounter = 10;
@@ -59,7 +68,8 @@ void PlayerObject::MyDraw()
 		AnimationCounter = 0;
 	}
 
-	DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
+	if( DEBUG )
+		DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {

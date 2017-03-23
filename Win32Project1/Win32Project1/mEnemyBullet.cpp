@@ -14,6 +14,9 @@ void mEnemyBullet::MyUpdate()
 }
 
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
+	// 無敵時間であればあたり判定処理を行わない
+	if ( ((PlayerObject *)PlayerObj)->InvincibleTime != 0 ) return; 
+
 	// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う
 	double PlayerObjectCenterX = PlayerObj->CenterX;
 	double PlayerObjectCenterY = PlayerObj->CenterY;
@@ -22,17 +25,16 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 
 		if (ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr))) {
-			// 衝突
+			// 衝突相手の弾を消す
 			(*itr)->ObjectDelete();
-			// DrawFormatString(5, 5, GetColor(0, 255, 255), _T("HIT!")); // 文字を描画する
-
-			// 当たったアブジェクト全てに対してHitを呼び出す(引数に対象イテレタ)も
-			// 考えられる( Unityとかの仕組み )
-			// 今回はプレイヤと敵弾に絞って処理を組む
+			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
+			((PlayerObject *)PlayerObj)->InvincibleTime = 120; // 無敵時間をセット
+			break; // 同フレームで複数の弾に当たらない
 		}
 	}
 }
 
+// 持っている弾幕を表示
 void mEnemyBullet::MyDraw()
 {
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end();  ) {
@@ -45,9 +47,11 @@ void mEnemyBullet::MyDraw()
 		itr++;
 	}
 
-	DrawFormatString(45, 45, GetColor(0, 255, 255), _T("弾数 %d"), ObjectList.size()); // 文字を描画する
+	if( DEBUG )
+		DrawFormatString(45, 45, GetColor(0, 255, 255), _T("弾数 %d"), ObjectList.size()); // 文字を描画する
 }
 
+// BulletPatternに従って弾幕を生成
 void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj ) 
 {
 	double Angle = BulletPatternObj->Angle - (BulletPatternObj->N - 1) * BulletPatternObj->Span;
@@ -72,6 +76,7 @@ mEnemyBullet::~mEnemyBullet()
 {
 }
 
+// 楕円と点とのあたり判定処理
 bool mEnemyBullet::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp)
 {
 	double ElpSizeX = Elp->WidthX * 0.4;
