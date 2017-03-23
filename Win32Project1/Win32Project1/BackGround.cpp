@@ -21,6 +21,10 @@ BackGround::~BackGround()
 
 void BackGround::MyUpdate()
 {
+	CenterY += 1;
+	if (CenterY >= 576) {
+		CenterY = 0;
+	}
 }
 
 void BackGround::MyDraw() {
