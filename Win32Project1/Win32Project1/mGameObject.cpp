@@ -18,7 +18,9 @@ mGameObject::mGameObject()
 	y = 0;
 
 	// オブジェクトを生成
-	AddObject(new mEnemyBullet()); // 敵弾管理オブジェクト
+	mEnemyBulletObject = new mEnemyBullet();
+	AddObject( mEnemyBulletObject ); // 敵弾管理オブジェクト
+	AddObject( new mEnemy( mEnemyBulletObject ) ); // 敵管理オブジェクト。敵弾管理オブジェクトを一緒に渡す。
 	AddObject(new PlayerDecorationObject(_T("Image/PDObject.png"))); // プレイヤーデコレートオブジェクト
 	AddObject(new PlayerObject(_T("Image/PlayerObject.png"), 0, 0)); // プレイヤーオブジェクト
 	AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト

@@ -51,6 +51,13 @@ void Bullet2::MyUpdate() {
 	CenterY += sin( Angle / 180 * M_PI ) * Speed;
 
 	Angle += vAngle;
+	vAngle *= vAngleRate;
+
+
+	if (CenterX < -100) ObjectDeleteFlag = true;
+	if (CenterY < -100) ObjectDeleteFlag = true;
+	if (CenterX > 640) ObjectDeleteFlag = true;
+	if (CenterY > WindowSizeY + 65) ObjectDeleteFlag = true;
 }
 
 void Bullet2::MyDraw() {
@@ -79,7 +86,7 @@ void Bullet2::MyDraw() {
 	*/
 
 	SetDrawBlendMode(Mode, Transparency);
-	DrawRotaGraph((int)CenterX , (int)CenterY, 1.0,  Angle,
+	DrawRotaGraph((int)CenterX , (int)CenterY, 1.0, Angle / 180 * M_PI,
 		GraphicHandle, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 

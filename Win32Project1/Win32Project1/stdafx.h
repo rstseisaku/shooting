@@ -36,7 +36,8 @@
 #include "Bullet2.h"
 #include "Screen.h"
 #include "BulletPattern.h"
-
+#include "mEnemy.h"
+#include "Enemy.h"
 
 #define WindowSizeX 1024
 #define WindowSizeY 576

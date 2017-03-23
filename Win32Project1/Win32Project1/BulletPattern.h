@@ -9,6 +9,8 @@ public:
 
 	int N; // Nway弾の設定
 	double Angle; // 起点となる角度
+	double vAngle; // Angleを毎フレーム変化させる
+	double vAngleRate; // vAngleに毎フレームかける値
 	double Span; // Nway弾の間隔
 	double Speed; // 弾のスピード
 	double X; // 射出位置

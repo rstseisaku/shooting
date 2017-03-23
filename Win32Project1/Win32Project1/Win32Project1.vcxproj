@@ -159,7 +159,9 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet2.h" />
     <ClInclude Include="BulletPattern.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="KeyControl.h" />
+    <ClInclude Include="mEnemy.h" />
     <ClInclude Include="mEnemyBullet.h" />
     <ClInclude Include="mGameObject.h" />
     <ClInclude Include="mGraphic.h" />
@@ -178,7 +180,9 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Bullet2.cpp" />
     <ClCompile Include="BulletPattern.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="KeyControl.cpp" />
+    <ClCompile Include="mEnemy.cpp" />
     <ClCompile Include="mEnemyBullet.cpp" />
     <ClCompile Include="mGameObject.cpp" />
     <ClCompile Include="mGraphic.cpp" />

@@ -3,48 +3,6 @@
 mEnemyBullet::mEnemyBullet()
 {
 	Layer = Layer_EnemyBullet;
-
-	/*
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 0));
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, -3, 0));
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 3));
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 0, 0));
-	*/
-
-	// for (int i = 0; i < 10; i++) {
-	// 	AddObject(new Bullet2(_T("Image/bullet2.png"), 200, 200, i * 36, 100));
-	// }
-	// AddObject(new Bullet2(_T("Image/bullet3.png"), 300, 300, 0, 0, (int)ADD, 127));
-	// AddObject(new Bullet2(_T("Image/bullet3.png"), 400, 300, 0, 0, (int)ADD, 127));
-	// AddObject(new Bullet2(_T("Image/bullet3.png"), 350, 350, 0, 0));
-	/*
-	bp->Speed = 60;
-	MakeBullet(bp);
-	bp->Speed = 90;
-	MakeBullet(bp);
-	bp->Speed = 120;
-	MakeBullet(bp);
-	*/
-
-	BulletPattern *bp = new BulletPattern();
-	bp->Speed = 140;
-	bp->CompositeModeParameter = ADD;
-	bp->Transparency = 255;
-	bp->N = 12;
-	bp->Span = 360.0 / bp->N;
-	MakeBullet(bp);
-
-	bp->CompositeModeParameter = NORMAL;
-	bp->Speed = 210;
-	bp->Transparency = 64;
-	bp->Angle += bp->Span / 3;
-	MakeBullet(bp);
-
-	bp->CompositeModeParameter = SUB;
-	bp->Speed = 70;
-	bp->Transparency = 127;
-	bp->Angle += bp->Span / 3;
-	MakeBullet(bp);
 }
 
 void mEnemyBullet::MyUpdate()
@@ -90,10 +48,9 @@ void mEnemyBullet::MyDraw()
 	DrawFormatString(45, 45, GetColor(0, 255, 255), _T("’e” %d"), ObjectList.size()); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
-
 void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj ) 
 {
-	int Angle = BulletPatternObj->Angle - (BulletPatternObj->N - 1) * BulletPatternObj->Span;
+	double Angle = BulletPatternObj->Angle - (BulletPatternObj->N - 1) * BulletPatternObj->Span;
 	for (int i = 0; i < BulletPatternObj->N; i++) {
 		Bullet2 *tmp = new Bullet2(
 			BulletPatternObj->FileName,
@@ -102,9 +59,11 @@ void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj )
 			Angle,
 			BulletPatternObj->Speed,
 			BulletPatternObj->CompositeModeParameter,
-			BulletPatternObj->Transparency);
-		tmp->vAngle = 1;
+			(int)BulletPatternObj->Transparency);
+		tmp->vAngle = BulletPatternObj->vAngle;
+		tmp->vAngleRate = BulletPatternObj->vAngleRate;
 		AddObject(tmp);
+
 		Angle += BulletPatternObj->Span;
 	}
 }

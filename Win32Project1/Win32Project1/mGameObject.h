@@ -7,10 +7,12 @@ class mGameObject
 public:
 	mGameObject();
 	~mGameObject();
+
 	void MyUpdate();
 	void MyDraw();
-
 	void AddObject(BaseObject * obj);
+
+	BaseObject* mEnemyBulletObject;
 
 private:
 	int x, y;

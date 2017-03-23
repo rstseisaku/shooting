@@ -6,6 +6,8 @@ BulletPattern::BulletPattern()
 {
 	N = 1; // Nway弾の設定
 	Angle = 0; // 起点となる角度
+	vAngle = 0; // Angleを毎フレーム変化させる
+	vAngleRate = 0.99; // vAngleに毎フレームかける値
 	Span = 0; // Nway弾の間隔
 	Speed = 30; // 弾のスピード
 	X = FieldCenterX; // 射出位置
