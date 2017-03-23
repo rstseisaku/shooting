@@ -16,7 +16,7 @@ mEnemyBullet::mEnemyBullet()
 	// }
 	AddObject(new Bullet2(_T("Image/bullet3.png"), 300, 300, 0, 0, (int)ADD, 127));
 	AddObject(new Bullet2(_T("Image/bullet3.png"), 400, 300, 0, 0, (int)ADD, 127));
-	// AddObject(new Bullet2(_T("Image/bullet3.png"), 255, 255, 0, 0));
+	AddObject(new Bullet2(_T("Image/bullet3.png"), 350, 350, 0, 0));
 }
 
 void mEnemyBullet::MyUpdate()
@@ -27,23 +27,6 @@ void mEnemyBullet::MyUpdate()
 	}
 }
 
-void mEnemyBullet::MyDraw()
-{
-	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
-		if ((*itr)->ObjectDeleteFlag) {
-			// delete( (*itr) );
-			// ObjectList.erase(itr);
-			continue;
-		}
-		(*itr)->MyDraw();
-	}
-}
-
-mEnemyBullet::~mEnemyBullet()
-{
-}
-
-
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 	// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う
 	double PlayerObjectCenterX = PlayerObj->CenterX;
@@ -52,10 +35,10 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 
-		if ( ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr) ) ) {
+		if (ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr))) {
 			// 衝突
 			(*itr)->ObjectDelete();
-			DrawFormatString(5, 5, GetColor(0, 255, 255), _T("HIT!")); // 文字を描画する
+			// DrawFormatString(5, 5, GetColor(0, 255, 255), _T("HIT!")); // 文字を描画する
 
 			// 当たったアブジェクト全てに対してHitを呼び出す(引数に対象イテレタ)も
 			// 考えられる( Unityとかの仕組み )
@@ -64,6 +47,22 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 	}
 }
 
+void mEnemyBullet::MyDraw()
+{
+	for (auto itr = ObjectList.begin(); itr != ObjectList.end();  ) {
+		if ((*itr)->ObjectDeleteFlag) {
+			delete((*itr));
+			itr = ObjectList.erase( itr ); // 要素を削除、次要素を受け取る
+			continue;
+		}
+		(*itr)->MyDraw();
+		itr++;
+	}
+}
+
+mEnemyBullet::~mEnemyBullet()
+{
+}
 
 bool mEnemyBullet::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp)
 {
