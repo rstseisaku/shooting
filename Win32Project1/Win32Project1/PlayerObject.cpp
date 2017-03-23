@@ -41,6 +41,11 @@ void PlayerObject::MyUpdate()
 	if (_gl_KeyControlObject->Key[KEY_INPUT_LEFT] >= 1) CenterX -= Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_DOWN] >= 1) CenterY+= Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_UP] >= 1) CenterY -= Speed;
+
+	if (CenterX <= 35)  CenterX = 35;
+	if (CenterY <= 35)  CenterY = 35;
+	if (CenterX >= 540 )  CenterX = 540;
+	if (CenterY >= WindowSizeY - 35)  CenterY = WindowSizeY - 35;
 }
 
 void PlayerObject::MyDraw()
@@ -54,7 +59,7 @@ void PlayerObject::MyDraw()
 		AnimationCounter = 0;
 	}
 
-	// DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
+	DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {
