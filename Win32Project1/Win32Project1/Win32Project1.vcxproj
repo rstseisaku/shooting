@@ -158,6 +158,7 @@
     <ClInclude Include="BaseObject2D.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet2.h" />
+    <ClInclude Include="BulletPattern.h" />
     <ClInclude Include="KeyControl.h" />
     <ClInclude Include="mEnemyBullet.h" />
     <ClInclude Include="mGameObject.h" />
@@ -176,6 +177,7 @@
     <ClCompile Include="BaseObject2D.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Bullet2.cpp" />
+    <ClCompile Include="BulletPattern.cpp" />
     <ClCompile Include="KeyControl.cpp" />
     <ClCompile Include="mEnemyBullet.cpp" />
     <ClCompile Include="mGameObject.cpp" />

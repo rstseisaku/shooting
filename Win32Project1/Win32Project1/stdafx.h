@@ -35,10 +35,15 @@
 #include "Bullet.h"
 #include "Bullet2.h"
 #include "Screen.h"
+#include "BulletPattern.h"
 
 
 #define WindowSizeX 1024
 #define WindowSizeY 576
+#define WindowCenterX 512
+#define WindowCenterY 288
+#define FieldCenterX 288
+#define FieldCenterY 288
 #define M_PI 3.1415926535
 
 /*

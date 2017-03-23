@@ -15,6 +15,6 @@ public:
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
 
-	int Speed;
+	double Speed;
 };
 
