@@ -22,6 +22,8 @@ void Enemy::MyUpdate()
 	Count %= 450;
 	if (Count == 149) {
 		BulletPattern *bp = new BulletPattern();
+		bp->X = CenterX;
+		bp->Y = CenterY;
 		bp->FileName = _T("Image/bullet5.png");
 		bp->CompositeModeParameter = ADD;
 		bp->Transparency = 200;
@@ -45,6 +47,8 @@ void Enemy::MyUpdate()
 	}
 	if (Count == 299) {
 		BulletPattern *bp = new BulletPattern();
+		bp->X = CenterX;
+		bp->Y = CenterY;
 		bp->FileName = _T("Image/bullet5.png");
 		bp->CompositeModeParameter = ADD;
 		bp->Transparency = 200;
@@ -68,6 +72,8 @@ void Enemy::MyUpdate()
 	}
 	if (Count == 449) {
 		BulletPattern *bp = new BulletPattern();
+		bp->X = CenterX;
+		bp->Y = CenterY;
 		bp->N = 20;
 		bp->Span = 360.0 / bp->N;
 		bp->CompositeModeParameter = NORMAL;

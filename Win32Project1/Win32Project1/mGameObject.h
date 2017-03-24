@@ -12,8 +12,22 @@ public:
 	void MyDraw();
 	void AddObject(BaseObject * obj);
 
+	void MyUpdateGameplaying();
+
+	void ClearObject();
+
+	void SetObject();
+
+	void ChangeStatus(int Status);
+
+	void MyUpdateGamestart();
+
+	void MyUpdateGameover();
+
 	BaseObject* mEnemyBulletObject;
 	PlayerObject* Player;
+
+	int GameStatus;
 
 private:
 	int x, y;

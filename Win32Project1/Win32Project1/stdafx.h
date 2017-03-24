@@ -66,6 +66,7 @@
 #define Layer_Screen 21
 
 enum CompositeMode { NORMAL = DX_BLENDMODE_PMA_ALPHA, ADD = DX_BLENDMODE_PMA_ADD, SUB = DX_BLENDMODE_PMA_SUB };
+enum GameStatus { GAMESTART, GAMEPLAYING, GAMEOVER };
 
 // グローバル変数として，画像管理オブジェクトを 1 つだけ保持
 extern mGraphic* _gl_mGraphicObject;

@@ -12,10 +12,20 @@ mEnemy::mEnemy(BaseObject* obj) {
 	mEnemyBulletObject = obj;
 
 	AddObject(
-		new Enemy( _T("Image/PDObject.png"),
+		new Enemy( _T("Image/enemy1.png"),
 					(mEnemyBullet *)mEnemyBulletObject,
-					FieldCenterX,
-					FieldCenterY ));
+					FieldCenterX-135,
+					FieldCenterY-135 ));
+	AddObject(
+		new Enemy(_T("Image/enemy1.png"),
+		(mEnemyBullet *)mEnemyBulletObject,
+			FieldCenterX + 135,
+			FieldCenterY - 135));
+	AddObject(
+		new Enemy(_T("Image/enemy1.png"),
+		(mEnemyBullet *)mEnemyBulletObject,
+			FieldCenterX,
+			FieldCenterY));
 }
 
 mEnemy::~mEnemy()
