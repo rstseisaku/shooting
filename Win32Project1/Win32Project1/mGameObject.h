@@ -13,6 +13,7 @@ public:
 	void AddObject(BaseObject * obj);
 
 	BaseObject* mEnemyBulletObject;
+	PlayerObject* Player;
 
 private:
 	int x, y;

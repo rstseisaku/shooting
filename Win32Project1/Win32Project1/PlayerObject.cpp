@@ -69,7 +69,7 @@ void PlayerObject::MyDraw()
 	}
 
 	if( DEBUG )
-		DrawFormatString(120, 179, GetColor(0, 255, 255), _T("x,y = %f,%f"), CenterX, CenterY); // •¶Žš‚ð•`‰æ‚·‚é
+		DrawFormatString(120, 179, GetColor(0, 255, 255), _T("(PlayerObject)life = %d"), Life); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {

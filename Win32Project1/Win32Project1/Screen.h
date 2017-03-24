@@ -5,10 +5,12 @@ class Screen :
 {
 public:
 	Screen();
-	Screen(const TCHAR * FileName, int _CenterX, int _CenterY);
+	Screen(const TCHAR * FileName, int _CenterX, int _CenterY, PlayerObject* Player);
 	~Screen();
 	void MyUpdate();
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
+
+	PlayerObject* PlayerObj;
 };
 

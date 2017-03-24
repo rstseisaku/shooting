@@ -10,5 +10,8 @@ public:
 	void MyUpdate();
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
+
+private:
+	int LoopPoint;
 };
 
