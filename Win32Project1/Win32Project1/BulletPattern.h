@@ -12,7 +12,7 @@ public:
 	double vAngle; // Angleを毎フレーム変化させる
 	double vAngleRate; // vAngleに毎フレームかける値
 	double Span; // Nway弾の間隔
-	double Speed; // 弾のスピード
+	int Speed; // 弾のスピード
 	double X; // 射出位置
 	double Y; // 射出位置
 	int Transparency; // 透過度

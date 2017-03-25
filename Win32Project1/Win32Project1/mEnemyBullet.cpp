@@ -29,6 +29,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 			(*itr)->ObjectDelete();
 			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
 			((PlayerObject *)PlayerObj)->InvincibleTime = 120; // 無敵時間をセット
+			_gl_mSoundObject->MyPlaySoundMem( _T("Sound/被弾.mp3"), DX_PLAYTYPE_BACK );
 			break; // 同フレームで複数の弾に当たらない
 		}
 	}
@@ -63,7 +64,7 @@ void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj )
 			Angle,
 			BulletPatternObj->Speed,
 			BulletPatternObj->CompositeModeParameter,
-			(int)BulletPatternObj->Transparency);
+			BulletPatternObj->Transparency);
 		tmp->vAngle = BulletPatternObj->vAngle;
 		tmp->vAngleRate = BulletPatternObj->vAngleRate;
 		AddObject(tmp);

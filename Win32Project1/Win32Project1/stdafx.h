@@ -30,8 +30,6 @@
 #include "PlayerObject.h"
 #include "PlayerDecorationObject.h"
 #include "mGameObject.h"
-#include "KeyControl.h"
-#include "mGraphic.h"
 #include "BackGround.h"
 #include "mEnemyBullet.h"
 #include "Bullet.h"
@@ -40,6 +38,10 @@
 #include "BulletPattern.h"
 #include "mEnemy.h"
 #include "Enemy.h"
+
+#include "KeyControl.h"
+#include "mGraphic.h"
+#include "mSound.h"
 
 #define WindowSizeX 1024
 #define WindowSizeY 576
@@ -70,4 +72,5 @@ enum GameStatus { GAMESTART, GAMEPLAYING, GAMEOVER };
 
 // グローバル変数として，画像管理オブジェクトを 1 つだけ保持
 extern mGraphic* _gl_mGraphicObject;
+extern mSound* _gl_mSoundObject;
 extern KeyControl* _gl_KeyControlObject;

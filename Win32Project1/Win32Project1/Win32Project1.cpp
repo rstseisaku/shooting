@@ -3,7 +3,7 @@
 // グローバル変数の実体を定義
 KeyControl* _gl_KeyControlObject = new KeyControl();
 mGraphic* _gl_mGraphicObject = new mGraphic();
-
+mSound* _gl_mSoundObject = new mSound();
 
 // プログラムは WinMain から始まります
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)

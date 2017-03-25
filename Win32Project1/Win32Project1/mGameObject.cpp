@@ -104,6 +104,10 @@ void mGameObject::MyUpdateGamestart()
 {
 	// 初期化処理。終了後、そのままプレイ中状態に遷移
 	_gl_KeyControlObject->Init();
+	_gl_mSoundObject->MyPlaySoundMem( _T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP );
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
+	_gl_mSoundObject->MyPlaySoundMem( _T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP );
+	_gl_mSoundObject->MyPlaySoundMem( _T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP );
 	x = 0;
 	y = 0;
 
@@ -132,6 +136,7 @@ void mGameObject::MyUpdateGameplaying()
 
 	// ゲームオーバー判定
 	if (Player->Life == -1) {
+		_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP);
 		ChangeStatus( GAMEOVER );
 	}
 
