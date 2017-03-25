@@ -46,5 +46,6 @@ int mSound::MyPlaySoundMem( const TCHAR *FileName, int DX_PLAYTYPE_XXX )
 		}
 		NowPlayingSoundHandle = SoundHandle; // Ä¶‚µ‚Ä‚¢‚éBGM‚ğ•Û‘¶
 	}
+	if ( NOSOUND ) return 0;
 	return PlaySoundMem( SoundHandle , DX_PLAYTYPE_XXX );
 }

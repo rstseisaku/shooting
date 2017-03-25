@@ -25,11 +25,24 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 
 		if (ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr))) {
-			// 衝突相手の弾を消す
-			(*itr)->ObjectDelete();
+
+
+			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
 			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
 			((PlayerObject *)PlayerObj)->InvincibleTime = 120; // 無敵時間をセット
-			_gl_mSoundObject->MyPlaySoundMem( _T("Sound/被弾.mp3"), DX_PLAYTYPE_BACK );
+
+			// 被弾エフェクトの表示
+			AnimationObject *AnimationObjectTmp;
+			AnimationObjectTmp = new AnimationObject(
+				_T("Image/Animation1.png"), 
+				7, 
+				1, 
+				((PlayerObject *)PlayerObj)->CenterX,
+				((PlayerObject *)PlayerObj)->CenterY);
+			AnimationObjectTmp->SetParameter( 3, 0, 7); // アニメーション頻度・開始・終了をセット
+			((PlayerObject *)PlayerObj)->AddObject( AnimationObjectTmp );
+
+			_gl_mSoundObject->MyPlaySoundMem( _T("Sound/被弾.mp3"), DX_PLAYTYPE_BACK ); // 被弾音再生
 			break; // 同フレームで複数の弾に当たらない
 		}
 	}
@@ -55,7 +68,7 @@ void mEnemyBullet::MyDraw()
 // BulletPatternに従って弾幕を生成
 void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj ) 
 {
-	double Angle = BulletPatternObj->Angle - (BulletPatternObj->N - 1) * BulletPatternObj->Span;
+	double Angle = BulletPatternObj->Angle - (BulletPatternObj->N - 1) * ( BulletPatternObj->Span / 2 );
 	for (int i = 0; i < BulletPatternObj->N; i++) {
 		Bullet2 *tmp = new Bullet2(
 			BulletPatternObj->FileName,

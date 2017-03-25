@@ -3,29 +3,17 @@
 #include "Enemy.h"
 
 
-mEnemy::mEnemy()
-{
-}
-
-mEnemy::mEnemy(BaseObject* obj) {
+mEnemy::mEnemy(BaseObject* _mEnemyBulletObject, BaseObject*  _PlayerObject) {
 	Layer = Layer_EnemyObject;
-	mEnemyBulletObject = obj;
+	mEnemyBulletObject = _mEnemyBulletObject;
+	PlayerObjectInstance = _PlayerObject;
 
 	AddObject(
-		new Enemy( _T("Image/enemy1.png"),
-					(mEnemyBullet *)mEnemyBulletObject,
-					FieldCenterX-135,
-					FieldCenterY-135 ));
-	AddObject(
 		new Enemy(_T("Image/enemy1.png"),
 		(mEnemyBullet *)mEnemyBulletObject,
-			FieldCenterX + 135,
-			FieldCenterY - 135));
-	AddObject(
-		new Enemy(_T("Image/enemy1.png"),
-		(mEnemyBullet *)mEnemyBulletObject,
-			FieldCenterX,
-			FieldCenterY));
+		(PlayerObject *)PlayerObjectInstance,
+		FieldCenterX,
+		FieldCenterY));
 }
 
 mEnemy::~mEnemy()
@@ -34,6 +22,7 @@ mEnemy::~mEnemy()
 
 void mEnemy::MyUpdate()
 {
+	// 子オブジェクトのUpdateを呼び出す
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		(*itr)->MyUpdate();

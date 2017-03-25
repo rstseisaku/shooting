@@ -4,8 +4,7 @@ class mEnemy :
 	public BaseObject
 {
 public:
-	mEnemy();
-	mEnemy(BaseObject * obj);
+	mEnemy(BaseObject * _mEnemyBulletObject, BaseObject * _PlayerObject);
 	~mEnemy();
 
 	void MyUpdate();
@@ -15,5 +14,6 @@ public:
 	void MyPeculiarAction(BaseObject * PlayerObj);
 
 	BaseObject* mEnemyBulletObject;
+	BaseObject* PlayerObjectInstance;
 };
 

@@ -6,6 +6,7 @@
 #pragma once
 
 #define DEBUG true
+#define NOSOUND true
 
 #include "targetver.h"
 
@@ -38,6 +39,7 @@
 #include "BulletPattern.h"
 #include "mEnemy.h"
 #include "Enemy.h"
+#include "AnimationObject.h"
 
 #include "KeyControl.h"
 #include "mGraphic.h"

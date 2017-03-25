@@ -66,10 +66,10 @@ void mGameObject::SetObject()
 	} else if (GameStatus == GAMEPLAYING) {
 		// ゲームプレイ開始時に必要なものをセット
 		mEnemyBulletObject = new mEnemyBullet();
+		Player = new PlayerObject(_T("Image/PlayerObject.png"), 0, 0); // プレイヤーオブジェクト
 		AddObject(mEnemyBulletObject); // 敵弾管理オブジェクト
-		AddObject(new mEnemy(mEnemyBulletObject)); // 敵管理オブジェクト。敵弾管理オブジェクトを一緒に渡す。
+		AddObject(new mEnemy(mEnemyBulletObject,Player)); // 敵管理オブジェクト。敵弾管理オブジェクトを一緒に渡す。
 		AddObject(new PlayerDecorationObject(_T("Image/PDObject.png"))); // プレイヤーの当たり判定を表示
-		Player = new PlayerObject(_T("Image/PlayerObject.png"), 0, 0);
 		AddObject(Player);
 		AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト
 		AddObject(new Screen(_T("Image/Screen.png"), 512, 288, Player)); // 背景オブジェクト
