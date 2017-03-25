@@ -6,7 +6,7 @@
 #pragma once
 
 #define DEBUG true
-#define NOSOUND true
+#define NOSOUND false
 
 #include "targetver.h"
 

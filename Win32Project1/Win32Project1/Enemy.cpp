@@ -26,7 +26,8 @@ void Enemy::MyUpdate()
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
-		bp->FileName = _T("Image/bullet5.png");
+		bp->FileName = _T("Image/bullet5_white.png");
+		bp->Angle = GetAngleToPlayer();
 
 		bp->CompositeModeParameter = ADD;
 		bp->Transparency = 200;
@@ -56,8 +57,9 @@ void Enemy::MyUpdate()
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
-		bp->FileName = _T("Image/bullet5.png");
+		bp->FileName = _T("Image/bullet5_white.png");
 		bp->CompositeModeParameter = ADD;
+		bp->Angle = GetAngleToPlayer();
 		bp->Transparency = 200;
 		bp->vAngle = -8;
 		bp->Speed = 70.0;
@@ -88,31 +90,34 @@ void Enemy::MyUpdate()
 		bp->N = 20;
 		bp->Span = 360.0 / bp->N;
 		bp->CompositeModeParameter = NORMAL;
-		bp->FileName = _T("Image/bullet4.png");
+		bp->Angle = GetAngleToPlayer();
 
+		bp->FileName = _T("Image/bullet4_blue.png");
+		bp->Speed = 65.0;
+		bp->vAngle = 6;
+		mEnemyBulletObject->MakeBullet(bp);
+		bp->vAngle = -6;
+		mEnemyBulletObject->MakeBullet(bp);
+
+		bp->FileName = _T("Image/bullet4_yellow.png");
 		bp->Speed = 100.0;
 		bp->vAngle = 8;
 		mEnemyBulletObject->MakeBullet(bp);
 		bp->vAngle = -8;
 		mEnemyBulletObject->MakeBullet(bp);
 
+		bp->FileName = _T("Image/bullet4_red.png");
 		bp->Speed = 160.0;
 		bp->vAngle = 12;
 		mEnemyBulletObject->MakeBullet(bp);
 		bp->vAngle = -12;
-		mEnemyBulletObject->MakeBullet(bp);
-
-		bp->Speed = 130.0;
-		bp->vAngle = 10;
-		mEnemyBulletObject->MakeBullet(bp);
-		bp->vAngle = -10;
 		mEnemyBulletObject->MakeBullet(bp);
 	}
 	if (Count % 7 == 0 && Count >= 1100 && Count <= 1300) {
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
-		bp->FileName = _T("Image/bullet5.png");
+		bp->FileName = _T("Image/bullet5_orange.png");
 		bp->CompositeModeParameter = ADD;
 		bp->Transparency = 200;
 		bp->Speed = 200.0 + ( Count - 1100 ) * 3;
