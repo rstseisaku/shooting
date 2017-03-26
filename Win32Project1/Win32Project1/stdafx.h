@@ -59,6 +59,7 @@
 #define MoveableAreaUpper 35
 #define M_PI 3.1415926535
 #define PatternNum 4
+#define MaxBomSize 300
 
 /*
 * ”wŒiŠÇ—ƒIƒuƒWƒFƒNƒg Ë ”wŒi			 Layer = (0)

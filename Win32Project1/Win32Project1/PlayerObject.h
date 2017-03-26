@@ -32,6 +32,7 @@ public:
 	int GrazeHandle;
 	int GrazeWidth;
 	int GrazeHeight;
+	int EnemyLevel;
 
 	BaseObject* EnemyBullet;
 };
