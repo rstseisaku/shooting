@@ -8,7 +8,6 @@ mEnemy::mEnemy(BaseObject* _mEnemyBulletObject, BaseObject*  _PlayerObject) {
 	mEnemyBulletObject = _mEnemyBulletObject;
 	PlayerObjectInstance = _PlayerObject;
 
-	/*
 	AddObject(
 		new Enemy(_T("Image/enemy1.png"),
 		(mEnemyBullet *)mEnemyBulletObject,
@@ -16,13 +15,13 @@ mEnemy::mEnemy(BaseObject* _mEnemyBulletObject, BaseObject*  _PlayerObject) {
 		FieldCenterX,
 		FieldCenterY));
 
+	/*
 	AddObject(
 		new Enemy2(_T("Image/enemy1.png"),
 		(mEnemyBullet *)mEnemyBulletObject,
 			(PlayerObject *)PlayerObjectInstance,
 			FieldCenterX -170,
 			FieldCenterY));
-	*/
 
 	AddObject(
 		new Enemy2(_T("Image/enemy1.png"),
@@ -30,6 +29,7 @@ mEnemy::mEnemy(BaseObject* _mEnemyBulletObject, BaseObject*  _PlayerObject) {
 			(PlayerObject *)PlayerObjectInstance,
 			FieldCenterX + 170,
 			FieldCenterY));
+	*/
 }
 
 mEnemy::~mEnemy()

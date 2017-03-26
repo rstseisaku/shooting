@@ -25,7 +25,7 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 
 	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
 	Life = 3;
-	InvincibleTime = 9999999;
+	InvincibleTime = 0;
 
 	Layer = Layer_PlayerObject;
 }

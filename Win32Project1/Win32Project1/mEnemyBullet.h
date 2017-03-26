@@ -10,6 +10,6 @@ public:
 	void MakeBullet(BulletPattern * BulletPatternObj);
 	~mEnemyBullet();
 	void MyPeculiarAction(BaseObject * obj);
-	bool ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D * Elp);
+	int ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D * Elp);
 };
 

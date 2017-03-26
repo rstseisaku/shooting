@@ -45,7 +45,6 @@ Bullet2::~Bullet2()
 
 void Bullet2::MyUpdate() {
 	MoveFromAngle();
-	Reflect();
 }
 
 void Bullet2::MyDraw() {
