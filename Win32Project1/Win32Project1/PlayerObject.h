@@ -16,8 +16,6 @@ public:
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
 
-	void ActivateBom();
-	void CloseBom();
 	int ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp);
 
 	// ‰æ‘œ‚ğ12ŒÂ‚É•ªŠ„“Ç
