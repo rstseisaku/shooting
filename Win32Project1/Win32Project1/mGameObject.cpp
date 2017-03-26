@@ -28,25 +28,6 @@ void mGameObject::MyUpdate()
 	} else if ( GameStatus == GAMEOVER ) {
 		MyUpdateGameover();
 	} 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	else if (GameStatus == GAMESTART) {
 		MyUpdateGamestart();
 	}
@@ -92,7 +73,8 @@ void mGameObject::SetObject()
 		AddObject(new PlayerDecorationObject(_T("Image/PDObject.png"))); // プレイヤーの当たり判定を表示
 		AddObject(Player);
 		AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト
-		AddObject(new Screen(_T("Image/Screen.png"), 512, 288, Player)); // 背景オブジェクト
+		mScreen = new Screen(_T("Image/Screen.png"), 512, 288, Player);
+		AddObject( mScreen );
 		ObjectList.sort(&comp);
 	} else if (GameStatus == GAMEOVER) {
 		// ゲームオーバー開始時に必要なものをセット

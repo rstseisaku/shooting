@@ -12,5 +12,8 @@ public:
 	void MyPeculiarAction(BaseObject * obj);
 
 	PlayerObject* PlayerObj;
+	int ScoreFont;
+	double Score;
+	int HighScore;
 };
 

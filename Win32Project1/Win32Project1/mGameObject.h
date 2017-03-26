@@ -1,4 +1,5 @@
 #include "BaseObject.h"
+#include "Screen.h"
 #include "stdafx.h"
 
 #pragma once
@@ -26,6 +27,7 @@ public:
 
 	BaseObject* mEnemyBulletObject;
 	PlayerObject* Player;
+	Screen* mScreen;
 
 	int GameStatus;
 

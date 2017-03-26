@@ -40,6 +40,7 @@
 #include "mEnemy.h"
 #include "Enemy.h"
 #include "AnimationObject.h"
+#include "Screen.h"
 
 #include "KeyControl.h"
 #include "mGraphic.h"
