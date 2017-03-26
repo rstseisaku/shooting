@@ -26,7 +26,26 @@ void mGameObject::MyUpdate()
 		MyUpdateGameplaying();
 	} else if ( GameStatus == GAMEOVER ) {
 		MyUpdateGameover();
-	}
+	} 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	else if (GameStatus == GAMESTART) {
 		MyUpdateGamestart();
 	}
