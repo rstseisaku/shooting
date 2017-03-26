@@ -141,6 +141,10 @@ void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 
 void PlayerObject::ActivateBom() {
 	// 範囲内の弾幕を消す
+	UsingBom = TRUE;
+	Counter = 60;
+	BomX = CenterX;
+	BomY = CenterY;
 
 	// ボムエフェクトの表示
 	AnimationObject *AnimationObjectTmp;
@@ -157,7 +161,6 @@ void PlayerObject::ActivateBom() {
 	AddObject(AnimationObjectTmp);
 
 	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/power03.wav"), DX_PLAYTYPE_BACK); // ボム音の再生
-	BomSize = 0.0;
 }
 
 void PlayerObject::CloseBom() {
