@@ -14,6 +14,7 @@ PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, Ba
 	EnemyBullet = EnemyBulletObject;
 
 	GrazeHandle = _gl_mGraphicObject->MyLoadGraphic(_T("Image/graze.png"));
+	GetGraphSize(GrazeHandle, &GrazeWidth, &GrazeHeight);
 }
 
 PlayerObject::~PlayerObject()
@@ -46,8 +47,10 @@ void PlayerObject::MyUpdate()
 	if (_gl_KeyControlObject->Key[KEY_INPUT_UP] >= 1) CenterY -= Speed;
 
 	//ボムる
+	//押されている間範囲拡大
+	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] >= 1) PrepareBom(EnemyBullet);
 	//離された時解放
-	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) ActivateBom();
+	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) ActivateBom(EnemyBullet);
 	BomSize += 100.0 / 60 / 30;
 	if (BomSize > MaxBomSize)
 		BomSize = MaxBomSize;
@@ -69,19 +72,6 @@ void PlayerObject::MyUpdate()
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		(*itr)->MyUpdate();
-	}
-	if (UsingBom == TRUE) {
-		for (auto itr = EnemyBullet->ObjectList.begin(); itr != EnemyBullet->ObjectList.end(); ++itr) {
-			if ((*itr)->ObjectDeleteFlag) continue;
-			int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
-			if (Hit == 1) {
-				(*itr)->ObjectDelete(); // 衝突相手の弾を消す
-			}
-		}
-		Counter--;
-		if (Counter == 0) {
-			CloseBom();
-		}
 	}
 }
 
@@ -106,23 +96,6 @@ void PlayerObject::MyDraw()
 		(*itr)->MyDraw();
 		itr++;
 	}
-	if (UsingBom == FALSE) {
-		if (BomSize < 100) {
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-			DrawRotaGraph(CenterX, CenterY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-		}
-		else if (BomSize >= 100) {
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-			DrawRotaGraph(CenterX, CenterY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
-			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-		}
-	}
-	else if (UsingBom == TRUE) {
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawRotaGraph(BomX, BomY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-	}
 	if(BomSize < 100) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 		DrawRotaGraph(CenterX, CenterY, ( 2 / 3 ) * BomSize / 150, 0.0, GrazeHandle, true);
@@ -139,10 +112,26 @@ void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 	// 特にやることはない
 }
 
-void PlayerObject::ActivateBom() {
-	// 範囲内の弾幕を消す
+void PlayerObject::PrepareBom(BaseObject* Bullet) {
+	//BomSize /*= 75; /*/ += 100.0 / 3 / 60;
 
-	// ボムエフェクトの表示
+	if (DEBUG) {
+		DrawFormatString(200, 400, GetColor(0, 255, 255), _T("BomSize %lf"), BomSize); // 文字を描画する
+	}
+}
+
+void PlayerObject::ActivateBom(BaseObject* Bullet) {
+	// 範囲内の弾幕を消す
+	for (auto itr = Bullet->ObjectList.begin(); itr != Bullet->ObjectList.end(); ++itr) {
+		if ((*itr)->ObjectDeleteFlag) continue;
+		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
+		if ( Hit == 1) {
+			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
+		}
+	}
+	BomSize = 0.0;
+
+	// 被弾エフェクトの表示
 	AnimationObject *AnimationObjectTmp;
 	AnimationObjectTmp = new AnimationObject(
 		_T("Image/Animation2.png"),
@@ -150,20 +139,12 @@ void PlayerObject::ActivateBom() {
 		1,
 		CenterX,
 		CenterY);
-	AnimationObjectTmp->SetParameter(5, 0, 9); // アニメーション頻度・開始・終了をセット
+	AnimationObjectTmp->SetParameter(3, 0, 9); // アニメーション頻度・開始・終了をセット
 	AnimationObjectTmp->Transparency = 200;
 	AnimationObjectTmp->Mode = ADD;
-	AnimationObjectTmp->Enlargement = 1.5;
 	AddObject(AnimationObjectTmp);
 
-	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/power03.wav"), DX_PLAYTYPE_BACK); // ボム音の再生
-	BomSize = 0.0;
-}
-
-void PlayerObject::CloseBom() {
-
-	UsingBom = FALSE;
-	BomSize = 0.0;
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/power03.wav"), DX_PLAYTYPE_BACK); // 被弾音再生
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {

@@ -16,6 +16,8 @@ public:
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
 
+	void PrepareBom(BaseObject* EnemyBullet);
+	void ActivateBom(BaseObject* EnemyBullet);
 	int ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp);
 
 	// ‰æ‘œ‚ğ12ŒÂ‚É•ªŠ„“Ç
@@ -28,11 +30,9 @@ public:
 	int Graze;
 	double BomSize;
 	int GrazeHandle;
+	int GrazeWidth;
+	int GrazeHeight;
 	int EnemyLevel;
-	bool UsingBom = FALSE;
-	int Counter;
-	int BomX;
-	int BomY;
 
 	BaseObject* EnemyBullet;
 };
