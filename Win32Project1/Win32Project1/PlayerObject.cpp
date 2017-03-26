@@ -31,6 +31,7 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
 	Life = 3;
 	InvincibleTime = 0;
+	BomSize = 0.0;
 
 	Layer = Layer_PlayerObject;
 }
@@ -49,7 +50,7 @@ void PlayerObject::MyUpdate()
 	//‰Ÿ‚³‚ê‚Ä‚¢‚éŠÔ”ÍˆÍŠg‘å
 	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] >= 1) PrepareBom(EnemyBullet);
 	//—£‚³‚ê‚½‰ğ•ú
-	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] >= 1) ActivateBom(EnemyBullet);
+	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) ActivateBom(EnemyBullet);
 
 	if (CenterX <= 35)  CenterX = 35;
 	if (CenterY <= 35)  CenterY = 35;
@@ -99,21 +100,15 @@ void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 }
 
 void PlayerObject::PrepareBom(BaseObject* Bullet) {
-	BomSize = 75; // += 100.0 / 3 / 60;
+	BomSize /*= 75; /*/ += 100.0 / 3 / 60;
 	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-	DrawGraph(CenterX - GrazeWidth/2, CenterY - GrazeHeight / 2, GrazeHandle, true);
-	
-/*	for (auto itr = Bullet->ObjectList.begin(); itr != Bullet->ObjectList.end(); ++itr) {
-		if ((*itr)->ObjectDeleteFlag) continue;
-		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
-		if (Hit == 1) {
-			(*itr)->ObjectDelete(); // Õ“Ë‘Šè‚Ì’e‚ğÁ‚·
-		}
-	}*/
+	DrawRotaGraph(CenterX, CenterY, BomSize/150, 0.0, GrazeHandle, true);
+	if (DEBUG) {
+		DrawFormatString(200, 400, GetColor(0, 255, 255), _T("BomSize %lf"), BomSize); // •¶š‚ğ•`‰æ‚·‚é
+	}
 }
 
 void PlayerObject::ActivateBom(BaseObject* Bullet) {
-//	BomSize += 100.0 / 3 / 60;
 	for (auto itr = Bullet->ObjectList.begin(); itr != Bullet->ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
@@ -121,6 +116,7 @@ void PlayerObject::ActivateBom(BaseObject* Bullet) {
 			(*itr)->ObjectDelete(); // Õ“Ë‘Šè‚Ì’e‚ğÁ‚·
 		}
 	}
+	BomSize = 0.0;
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {
