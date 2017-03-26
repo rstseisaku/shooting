@@ -15,7 +15,7 @@ void Enemy::MyUpdate()
 		Count = 0;
 		Level = mEnemyObjectLevel;
 
-		Pattern = IYAGARASE;
+		// Pattern = IYAGARASE;
 	}
 	else if ( Pattern == GURUGURU ) {
 		MyUpdateGuruguru();
