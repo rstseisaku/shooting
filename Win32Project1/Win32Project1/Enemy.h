@@ -16,4 +16,7 @@ public:
 	void MyUpdateKousa();
 	void MyUpdateIyagarase();
 	void MyUpdateJiyurakka();
+	void MyUpdateGuruguru2();
+
+	int val1;
 };

@@ -53,6 +53,11 @@ void Bullet::MyUpdate()
 	// äpìxÇÃçXêV
 	Angle = atan2(vy, vx);
 	Angle = Angle * 180.0 / M_PI;
+
+	if (CenterX < MoveableAreaLeft - 100) ObjectDeleteFlag = true;
+	if (CenterY < MoveableAreaUpper - 100) ObjectDeleteFlag = true;
+	if (CenterX > MoveableAreaRight + 100) ObjectDeleteFlag = true;
+	if (CenterY > MoveableAreaButtom + 100) ObjectDeleteFlag = true;
 }
 
 void Bullet::MyDraw() {
