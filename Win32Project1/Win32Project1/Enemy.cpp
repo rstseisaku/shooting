@@ -15,7 +15,7 @@ void Enemy::MyUpdate()
 		Count = 0;
 		Level = mEnemyObjectLevel;
 
-		Pattern = JIYUURAKKA;
+		// Pattern = JIYUURAKKA;
 	}
 	else if ( Pattern == GURUGURU ) {
 		MyUpdateGuruguru();
@@ -224,7 +224,7 @@ void Enemy::MyUpdateJiyurakka() {
 		double vx, vy, vvx, vvy;
 		vvx = 0;
 		for (int i = 0; i < Way; i++) {
-			vx = GetRand(10)*0.1 - 0.5;
+			vx = GetRand(10)*0.25 - 1.25;
 			vy = GetRand(10)*0.2 - 4;
 			vvy = GetRand(10)*0.01 + 0.02;
 			Bullet* tmp = new Bullet(
