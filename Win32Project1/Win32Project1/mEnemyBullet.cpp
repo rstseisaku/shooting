@@ -92,7 +92,7 @@ void mEnemyBullet::AddBullet(BaseObject * obj)
 {
 	// スコア情報を付け足して、弾幕を実際に生成
 	((BaseObject2D*)obj)->GrazeScore = SetGrazeScore;
-	((BaseObject2D*)obj)->EraseScore = SetEraseScore;
+	((BaseObject2D*)obj)->EraseScore = SetEraseScore/60;
 	ObjectList.push_back(obj);
 }
 
