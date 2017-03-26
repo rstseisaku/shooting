@@ -143,6 +143,8 @@ void PlayerObject::ActivateBom(BaseObject* Bullet) {
 	AnimationObjectTmp->Transparency = 200;
 	AnimationObjectTmp->Mode = ADD;
 	AddObject(AnimationObjectTmp);
+
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/power03.wav"), DX_PLAYTYPE_BACK); // ”í’e‰¹Ä¶
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {

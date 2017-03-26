@@ -14,9 +14,6 @@ void mEnemyBullet::MyUpdate()
 }
 
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
-	// 無敵時間であればあたり判定処理を行わない++++
-	if ( ((PlayerObject *)PlayerObj)->InvincibleTime != 0 ) return; 
-
 	// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う
 	double PlayerObjectCenterX = PlayerObj->CenterX;
 	double PlayerObjectCenterY = PlayerObj->CenterY;
@@ -24,7 +21,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		int Hit = ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr));
-		if ( Hit == 1 ) {
+		if ( Hit == 1 && (((PlayerObject *)PlayerObj)->InvincibleTime != 0) ) {
 			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
 			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
 			((PlayerObject *)PlayerObj)->InvincibleTime = 120; // 無敵時間をセット
@@ -117,7 +114,13 @@ int mEnemyBullet::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* E
 	}
 
 	// 原点から移動後点までの距離を算出
-	if (After_x*After_x + After_y*After_y <= ElpSizeX*ElpSizeX)	return 1;
-	if (After_x*After_x + After_y*After_y <= ElpGrazeSizeX*ElpGrazeSizeX)	return 2;
+	if (After_x*After_x + After_y*After_y <= ElpSizeX*ElpSizeX) {
+		if (Elp->NoHitFlag == true) return 0;
+		return 1;
+	}
+	if (After_x*After_x + After_y*After_y <= ElpGrazeSizeX*ElpGrazeSizeX) {
+		if (Elp->NoHitFlag == true) return 0;
+		return 2;
+	}
 	return 0;
 }
