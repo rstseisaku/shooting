@@ -46,12 +46,12 @@ void PlayerObject::MyUpdate()
 	if (_gl_KeyControlObject->Key[KEY_INPUT_UP] >= 1) CenterY -= Speed;
 
 	//ボムる
-	//離された時解放
 	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) ActivateBom();
 	BomSize += 100.0 / 60 / 30;
 	if (BomSize > MaxBomSize)
 		BomSize = MaxBomSize;
 
+	// 枠内に収める処理
 	if (CenterX <= 35)  CenterX = 35;
 	if (CenterY <= 35)  CenterY = 35;
 	if (CenterX >= 540)  CenterX = 540;
@@ -70,12 +70,15 @@ void PlayerObject::MyUpdate()
 		if ((*itr)->ObjectDeleteFlag) continue;
 		(*itr)->MyUpdate();
 	}
+
+	// ボムで為を消す処理
 	if (UsingBom == TRUE) {
 		for (auto itr = EnemyBullet->ObjectList.begin(); itr != EnemyBullet->ObjectList.end(); ++itr) {
 			if ((*itr)->ObjectDeleteFlag) continue;
 			int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
 			if (Hit == 1) {
-				(*itr)->ObjectDelete(); // 衝突相手の弾を消す
+				((BaseObject2D*)(*itr))->Fadeout = 60; // 60フレームかけて弾をフェードアウト消去
+				((BaseObject2D*)(*itr))->NoHitFlag = true; // 当たり判定の除去
 			}
 		}
 		Counter--;
