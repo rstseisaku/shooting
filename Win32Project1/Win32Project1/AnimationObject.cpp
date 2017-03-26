@@ -10,6 +10,8 @@ AnimationObject::AnimationObject(const TCHAR * FileName, int _SplitX, int _Split
 	CenterY = _CenterY;
 	_gl_mGraphicObject->MyLoadDivGraphic(FileName, SplitX, SplitY, GraphicHandle);
 	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
+	Mode = NORMAL;
+	Transparency = 255;
 }
 
 AnimationObject::~AnimationObject()
@@ -28,7 +30,10 @@ void AnimationObject::MyUpdate()
 
 void AnimationObject::MyDraw()
 {
-	 DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle[GraphicPattern], true);
+	SetDrawBlendMode(Mode, Transparency);
+	DrawRotaGraph((int)CenterX, (int)CenterY, 1.0, 0,
+		GraphicHandle[GraphicPattern], true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 }
 
 void AnimationObject::MyPeculiarAction(BaseObject * obj)

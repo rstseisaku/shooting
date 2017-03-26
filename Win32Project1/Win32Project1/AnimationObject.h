@@ -25,5 +25,7 @@ public:
 	int SplitY; // 縦分割数
 	int AnimationStart; // アニメーション開始ID
 	int AnimationEnd; // アニメーション終了ID
+	int Transparency; // 透過度
+	int Mode; // アルファブレンド値
 };
 
