@@ -98,12 +98,12 @@ void PlayerObject::MyDraw()
 	}
 	if(BomSize < 100) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-		DrawRotaGraph(CenterX, CenterY, ( 2 / 3 ) * BomSize / 150, 0.0, GrazeHandle, true);
+		DrawRotaGraph(CenterX, CenterY, ( 2.0 / 3.0 ) * BomSize / 150, 0.0, GrazeHandle, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 	}
 	else if (BomSize >= 100) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawRotaGraph(CenterX, CenterY, ( 2 / 3 ) * BomSize / 150, 0.0, GrazeHandle, true);
+		DrawRotaGraph(CenterX, CenterY, ( 2.0 / 3.0 ) * BomSize / 150, 0.0, GrazeHandle, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 	}
 }
@@ -126,12 +126,13 @@ void PlayerObject::ActivateBom(BaseObject* Bullet) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
 		if ( Hit == 1) {
-			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
+			((BaseObject2D*)(*itr))->NoHitFlag = true; // 当たり判定を消去
+			((BaseObject2D*)(*itr))->Fadeout = 30; // 30フレームかけてフェードアウト
+
 		}
 	}
-	BomSize = 0.0;
 
-	// 被弾エフェクトの表示
+	// ボムエフェクトの表示
 	AnimationObject *AnimationObjectTmp;
 	AnimationObjectTmp = new AnimationObject(
 		_T("Image/Animation2.png"),
@@ -139,12 +140,14 @@ void PlayerObject::ActivateBom(BaseObject* Bullet) {
 		1,
 		CenterX,
 		CenterY);
-	AnimationObjectTmp->SetParameter(3, 0, 9); // アニメーション頻度・開始・終了をセット
+	AnimationObjectTmp->SetParameter(5, 0, 9); // アニメーション頻度・開始・終了をセット
 	AnimationObjectTmp->Transparency = 200;
 	AnimationObjectTmp->Mode = ADD;
+	AnimationObjectTmp->Enlargement = 1.5;
 	AddObject(AnimationObjectTmp);
 
-	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/power03.wav"), DX_PLAYTYPE_BACK); // 被弾音再生
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/power03.wav"), DX_PLAYTYPE_BACK); // ボム音の再生
+	BomSize = 0.0;
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {

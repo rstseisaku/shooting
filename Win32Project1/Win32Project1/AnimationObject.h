@@ -27,5 +27,6 @@ public:
 	int AnimationEnd; // アニメーション終了ID
 	int Transparency; // 透過度
 	int Mode; // アルファブレンド値
+	double Enlargement; // 画像の拡大率
 };
 

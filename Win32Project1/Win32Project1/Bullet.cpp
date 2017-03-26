@@ -45,6 +45,8 @@ Bullet::~Bullet()
 
 void Bullet::MyUpdate()
 {
+	if (MyFadeout()) return; // フェードアウトの判定・処理
+
 	vx += vvx;
 	vy += vvy;
 	CenterX += vx;

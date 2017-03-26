@@ -44,6 +44,7 @@ Bullet2::~Bullet2()
 }
 
 void Bullet2::MyUpdate() {
+	if (MyFadeout()) return; // フェードアウトの判定・処理
 	MoveFromAngle();
 }
 

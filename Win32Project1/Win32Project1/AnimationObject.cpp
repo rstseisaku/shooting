@@ -12,6 +12,7 @@ AnimationObject::AnimationObject(const TCHAR * FileName, int _SplitX, int _Split
 	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
 	Mode = NORMAL;
 	Transparency = 255;
+	Enlargement = 1.0;
 }
 
 AnimationObject::~AnimationObject()
@@ -31,7 +32,7 @@ void AnimationObject::MyUpdate()
 void AnimationObject::MyDraw()
 {
 	SetDrawBlendMode(Mode, Transparency);
-	DrawRotaGraph((int)CenterX, (int)CenterY, 1.0, 0,
+	DrawRotaGraph((int)CenterX, (int)CenterY, Enlargement, 0,
 		GraphicHandle[GraphicPattern], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 }

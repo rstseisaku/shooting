@@ -56,3 +56,16 @@ void BaseObject2D::Reflect() {
 		Angle -= 90;
 	}
 }
+
+
+// フェードアウトの判定・処理
+// フェードアウトが始まっていたら処理を行い、trueを返す
+bool BaseObject2D::MyFadeout() {
+	if (Fadeout >= 0) {
+		if (vTransparency == -1) vTransparency = Transparency / Fadeout;
+		Transparency -= vTransparency;
+		if (Transparency < 0) ObjectDelete();
+		return true;
+	}
+	return false;
+}

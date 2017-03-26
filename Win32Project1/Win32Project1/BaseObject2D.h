@@ -11,6 +11,8 @@ public:
 	void MoveFromAngle();
 	void Reflect();
 
+	bool MyFadeout();
+
 	int GraphicHandle; // 画像データのハンドル
 	double Angle = 0;
 	double vAngle = 0; // 毎フレーム Angle に加算する
@@ -21,5 +23,7 @@ public:
 
 	bool GrazeFlag = false; // グレイズしたら true を代入
 	bool NoHitFlag = false; // 当たり判定消去中
+	int Fadeout = -1; // フェードアウトのフレームを算出
+	int vTransparency = -1; // 透過度変化
 };
 
