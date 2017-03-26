@@ -34,6 +34,8 @@ public:
 private:
 	int x, y;
 	int count = 0;
+	int isItemRight = 0;
+	int isRareItemRight = 0;
 	std::list<BaseObject*> ObjectList;
 };
 

@@ -61,8 +61,10 @@ void mEnemyBullet::MyDraw()
 		itr++;
 	}
 
-	if( DEBUG )
+	if (DEBUG) {
 		DrawFormatString(45, 45, GetColor(0, 255, 255), _T("’e” %d"), ObjectList.size()); // •¶Žš‚ð•`‰æ‚·‚é
+		DrawFormatString(45, 65, GetColor(0, 255, 255), _T("ƒOƒŒƒCƒY/ƒ{ƒ€ %d,%d"), SetGrazeScore, SetEraseScore); // •¶Žš‚ð•`‰æ‚·‚é
+	}
 }
 
 // BulletPattern‚É]‚Á‚Ä’e–‹‚ð¶¬
@@ -80,11 +82,20 @@ void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj )
 			BulletPatternObj->Transparency);
 		tmp->vAngle = BulletPatternObj->vAngle;
 		tmp->vAngleRate = BulletPatternObj->vAngleRate;
-		AddObject(tmp);
+		AddBullet(tmp);
 
 		Angle += BulletPatternObj->Span;
 	}
 }
+
+void mEnemyBullet::AddBullet(BaseObject * obj)
+{
+	// ƒXƒRƒAî•ñ‚ð•t‚¯‘«‚µ‚ÄA’e–‹‚ðŽÀÛ‚É¶¬
+	((BaseObject2D*)obj)->GrazeScore = SetGrazeScore;
+	((BaseObject2D*)obj)->EraseScore = SetEraseScore;
+	ObjectList.push_back(obj);
+}
+
 
 mEnemyBullet::~mEnemyBullet()
 {

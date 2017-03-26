@@ -35,7 +35,9 @@ public:
 	int Counter;
 	int BomX;
 	int BomY;
-	//fuck
+
+	int GetItemNum; // 拾ったアイテムの個数
+	int GetRareItemNum;  // 拾ったハイスコアアイテムの個数
 
 	BaseObject* EnemyBullet;
 };

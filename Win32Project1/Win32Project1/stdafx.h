@@ -42,6 +42,7 @@
 #include "Enemy2.h"
 #include "AnimationObject.h"
 #include "Screen.h"
+#include "ItemObject.h"
 
 #include "KeyControl.h"
 #include "mGraphic.h"
@@ -57,6 +58,7 @@
 #define MoveableAreaRight 540
 #define MoveableAreaButtom 540
 #define MoveableAreaUpper 35
+#define MoveableWidth  ( MoveableAreaRight - MoveableAreaLeft)
 #define M_PI 3.1415926535
 #define PatternNum 6
 #define MaxBomSize 300
@@ -77,6 +79,8 @@
 #define Layer_PlayerShot 1
 #define Layer_BackGround 0
 #define Layer_Screen 21
+#define Layer_Item 2
+#define Layer_RareItem 3
 
 enum CompositeMode { NORMAL = DX_BLENDMODE_PMA_ALPHA, ADD = DX_BLENDMODE_PMA_ADD, SUB = DX_BLENDMODE_PMA_SUB };
 enum GameStatus { GAMESTART, GAMEPLAYING, GAMEOVER };
