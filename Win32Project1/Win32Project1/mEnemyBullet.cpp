@@ -91,6 +91,7 @@ void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj )
 void mEnemyBullet::AddBullet(BaseObject * obj)
 {
 	// スコア情報を付け足して、弾幕を実際に生成
+	// 実際の算出は、
 	((BaseObject2D*)obj)->GrazeScore = SetGrazeScore;
 	((BaseObject2D*)obj)->EraseScore = SetEraseScore;
 	ObjectList.push_back(obj);
