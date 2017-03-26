@@ -99,10 +99,12 @@ void PlayerObject::MyDraw()
 	if(BomSize < 100) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 		DrawRotaGraph(CenterX, CenterY, 2 * BomSize / 150, 0.0, GrazeHandle, true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 	}
 	else if (BomSize >= 100) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawRotaGraph(CenterX, CenterY, 2 * BomSize / 150, 0.0, GrazeHandle, true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 	}
 }
 
