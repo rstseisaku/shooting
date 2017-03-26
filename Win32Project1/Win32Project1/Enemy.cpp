@@ -11,9 +11,9 @@ Enemy::Enemy(const TCHAR * FileName, mEnemyBullet * obj, PlayerObject* obj2, dou
 void Enemy::MyUpdate()
 {
 	// グレイズ時・ボム時に加算するスコアを、弾管理オブジェクトに格納 
-	mEnemyBulletObject->SetGrazeScore = 
+	mEnemyBulletObject->SetGrazeScore = Level * 10 + 
 		PlayerObjectInstance->GetItemNum + PlayerObjectInstance->GetRareItemNum * 3;
-	mEnemyBulletObject->SetEraseScore = Level;
+	mEnemyBulletObject->SetEraseScore = mEnemyBulletObject->SetGrazeScore / 2;
 
 	if (Pattern == NOSELECTED) {
 		Pattern = GetRand( PatternNum - 1 ) + 1 ; // NOSELECTEDを選ばない様に
