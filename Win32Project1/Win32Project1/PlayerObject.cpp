@@ -121,14 +121,28 @@ void PlayerObject::PrepareBom(BaseObject* Bullet) {
 }
 
 void PlayerObject::ActivateBom(BaseObject* Bullet) {
+	// 範囲内の弾幕を消す
 	for (auto itr = Bullet->ObjectList.begin(); itr != Bullet->ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
-		if (Hit == 1) {
+		if ( Hit == 1) {
 			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
 		}
 	}
 	BomSize = 0.0;
+
+	// 被弾エフェクトの表示
+	AnimationObject *AnimationObjectTmp;
+	AnimationObjectTmp = new AnimationObject(
+		_T("Image/Animation2.png"),
+		10,
+		1,
+		CenterX,
+		CenterY);
+	AnimationObjectTmp->SetParameter(3, 0, 9); // アニメーション頻度・開始・終了をセット
+	AnimationObjectTmp->Transparency = 200;
+	AnimationObjectTmp->Mode = ADD;
+	AddObject(AnimationObjectTmp);
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {
