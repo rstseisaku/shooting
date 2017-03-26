@@ -3,20 +3,6 @@
 mEnemyBullet::mEnemyBullet()
 {
 	Layer = Layer_EnemyBullet;
-
-	/*
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 0));
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, -3, 0));
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 3, 3));
-	AddObject(new Bullet(_T("Image/bullet1.png"), 300, 300, 0, 0));
-	*/
-
-	// for (int i = 0; i < 10; i++) {
-	// 	AddObject(new Bullet2(_T("Image/bullet2.png"), 200, 200, i * 36, 100));
-	// }
-	AddObject(new Bullet2(_T("Image/bullet3.png"), 300, 300, 0, 0, (int)ADD, 127));
-	AddObject(new Bullet2(_T("Image/bullet3.png"), 400, 300, 0, 0, (int)ADD, 127));
-	// AddObject(new Bullet2(_T("Image/bullet3.png"), 255, 255, 0, 0));
 }
 
 void mEnemyBullet::MyUpdate()
@@ -27,24 +13,10 @@ void mEnemyBullet::MyUpdate()
 	}
 }
 
-void mEnemyBullet::MyDraw()
-{
-	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
-		if ((*itr)->ObjectDeleteFlag) {
-			// delete( (*itr) );
-			// ObjectList.erase(itr);
-			continue;
-		}
-		(*itr)->MyDraw();
-	}
-}
-
-mEnemyBullet::~mEnemyBullet()
-{
-}
-
-
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
+	// 無敵時間であればあたり判定処理を行わない
+	if ( ((PlayerObject *)PlayerObj)->InvincibleTime != 0 ) return; 
+
 	// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う
 	double PlayerObjectCenterX = PlayerObj->CenterX;
 	double PlayerObjectCenterY = PlayerObj->CenterY;
@@ -52,19 +24,73 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 
-		if ( ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr) ) ) {
-			// 衝突
-			(*itr)->ObjectDelete();
-			DrawFormatString(5, 5, GetColor(0, 255, 255), _T("HIT!")); // 文字を描画する
+		if (ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr))) {
 
-			// 当たったアブジェクト全てに対してHitを呼び出す(引数に対象イテレタ)も
-			// 考えられる( Unityとかの仕組み )
-			// 今回はプレイヤと敵弾に絞って処理を組む
+
+			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
+			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
+			((PlayerObject *)PlayerObj)->InvincibleTime = 120; // 無敵時間をセット
+
+			// 被弾エフェクトの表示
+			AnimationObject *AnimationObjectTmp;
+			AnimationObjectTmp = new AnimationObject(
+				_T("Image/Animation1.png"), 
+				7, 
+				1, 
+				((PlayerObject *)PlayerObj)->CenterX,
+				((PlayerObject *)PlayerObj)->CenterY);
+			AnimationObjectTmp->SetParameter( 3, 0, 7); // アニメーション頻度・開始・終了をセット
+			((PlayerObject *)PlayerObj)->AddObject( AnimationObjectTmp );
+
+			_gl_mSoundObject->MyPlaySoundMem( _T("Sound/被弾.mp3"), DX_PLAYTYPE_BACK ); // 被弾音再生
+			break; // 同フレームで複数の弾に当たらない
 		}
 	}
 }
 
+// 持っている弾幕を表示
+void mEnemyBullet::MyDraw()
+{
+	for (auto itr = ObjectList.begin(); itr != ObjectList.end();  ) {
+		if ((*itr)->ObjectDeleteFlag) {
+			delete((*itr));
+			itr = ObjectList.erase( itr ); // 要素を削除、次要素を受け取る
+			continue;
+		}
+		(*itr)->MyDraw();
+		itr++;
+	}
 
+	if( DEBUG )
+		DrawFormatString(45, 45, GetColor(0, 255, 255), _T("弾数 %d"), ObjectList.size()); // 文字を描画する
+}
+
+// BulletPatternに従って弾幕を生成
+void mEnemyBullet::MakeBullet( BulletPattern *BulletPatternObj ) 
+{
+	double Angle = BulletPatternObj->Angle - (BulletPatternObj->N - 1) * ( BulletPatternObj->Span / 2 );
+	for (int i = 0; i < BulletPatternObj->N; i++) {
+		Bullet2 *tmp = new Bullet2(
+			BulletPatternObj->FileName,
+			BulletPatternObj->X,
+			BulletPatternObj->Y,
+			Angle,
+			BulletPatternObj->Speed,
+			BulletPatternObj->CompositeModeParameter,
+			BulletPatternObj->Transparency);
+		tmp->vAngle = BulletPatternObj->vAngle;
+		tmp->vAngleRate = BulletPatternObj->vAngleRate;
+		AddObject(tmp);
+
+		Angle += BulletPatternObj->Span;
+	}
+}
+
+mEnemyBullet::~mEnemyBullet()
+{
+}
+
+// 楕円と点とのあたり判定処理
 bool mEnemyBullet::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp)
 {
 	double ElpSizeX = Elp->WidthX * 0.4;

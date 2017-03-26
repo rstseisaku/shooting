@@ -14,7 +14,7 @@ mGraphic::~mGraphic()
 int mGraphic::MyLoadGraphic(const TCHAR* FileName)
 {
 	int GraphicHandle;
-	int res = GraphicHandleObject.count(FileName);
+	int res = (int)GraphicHandleObject.count(FileName);
 	if ( res == 0) { // –¢ƒ[ƒh‚Ì‰æ‘œ‚Å‚ ‚ê‚Î
 			GraphicHandle = LoadGraph(FileName, 0);		if (GraphicHandle == -1) {
 			DrawFormatString(0, 70, GetColor(255, 0, 0), _T("y‰æ‘œ“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½z%s"), FileName); // •¶š‚ğ•`‰æ‚·‚é
@@ -41,7 +41,7 @@ void mGraphic::MyLoadDivGraphic(const TCHAR* FileName, int splitX, int splitY, i
 	TCHAR FileNameSplitId[200];
 	wsprintf(FileNameSplitId, _T("%s_%d"),FileName,splitId);
 
-	int res = DivGraphicHandleObject.count(FileNameSplitId);
+	int res = (int)DivGraphicHandleObject.count(FileNameSplitId);
 	if ( res == 0) { // –¢ƒ[ƒh‚Ì‰æ‘œ‚Å‚ ‚ê‚Î
 		int res = LoadDivGraph(FileName, splitId, splitX, splitY, SizeX / splitX, SizeY / splitY, DivImg[DivImgCounter]);
 		if (res == -1) {

@@ -14,15 +14,15 @@ Bullet2::Bullet2(const TCHAR * FileName)
 Bullet2::Bullet2(const TCHAR * FileName, int _Angle, int _Speed)
 {
 	InitCommon(FileName); // 画像ハンドル WidthX HeightYの算出
-	Angle = _Angle;
-	Speed = _Speed;
+	Angle = _Angle % 360;
+	Speed = _Speed / 60.0;
 }
 
 Bullet2::Bullet2(const TCHAR * FileName, int _x, int _y, int _Angle, int _Speed)
 {
 	InitCommon(FileName); // 画像ハンドル WidthX HeightYの算出
-	Angle = _Angle;
-	Speed = _Speed / 60;
+	Angle = _Angle % 360;
+	Speed = _Speed / 60.0;
 	CenterX = _x;
 	CenterY = _y;
 }
@@ -31,8 +31,8 @@ Bullet2::Bullet2(const TCHAR * FileName, int _x, int _y, int _Angle, int _Speed,
 				 int _Mode, int _Transparency )
 {
 	InitCommon(FileName); // 画像ハンドル WidthX HeightYの算出
-	Angle = _Angle;
-	Speed = _Speed / 60;
+	Angle = _Angle % 360;
+	Speed = _Speed / 60.0;
 	CenterX = _x;
 	CenterY = _y;
 	Mode = _Mode;
@@ -43,10 +43,21 @@ Bullet2::~Bullet2()
 {
 }
 
-void Bullet2::MyUpdate() {	
-	CenterX += cos(Angle) * Speed;
-	CenterY += sin(Angle) * Speed;
-	Angle += M_PI / 360;
+void Bullet2::MyUpdate() {
+	Angle = fmod(Angle,360);
+	if (Angle < 0) Angle += 360;
+
+	CenterX += cos( Angle / 180 * M_PI ) * Speed;
+	CenterY += sin( Angle / 180 * M_PI ) * Speed;
+
+	Angle += vAngle;
+	vAngle *= vAngleRate;
+
+
+	if (CenterX < -100) ObjectDeleteFlag = true;
+	if (CenterY < -100) ObjectDeleteFlag = true;
+	if (CenterX > 640) ObjectDeleteFlag = true;
+	if (CenterY > WindowSizeY + 65) ObjectDeleteFlag = true;
 }
 
 void Bullet2::MyDraw() {
@@ -74,9 +85,8 @@ void Bullet2::MyDraw() {
     DX_BLENDMODE_PMA_SUB
 	*/
 
-	Transparency = 127;
-	SetDrawBlendMode(DX_BLENDMODE_PMA_ADD, Transparency);
-	DrawRotaGraph((int)CenterX , (int)CenterY, 1.0,  Angle,
+	SetDrawBlendMode(Mode, Transparency);
+	DrawRotaGraph((int)CenterX , (int)CenterY, 1.0, Angle / 180 * M_PI,
 		GraphicHandle, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 

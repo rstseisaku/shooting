@@ -20,6 +20,7 @@ public:
 	int GraphicPattern;
 	int AnimationInterval = 10;
 	int AnimationCounter = 0;
-	int RemainingPlayer;
+	int Life;
+	int InvincibleTime;
 };
 
