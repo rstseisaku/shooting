@@ -35,6 +35,7 @@ public:
 	int Counter;
 	int BomX;
 	int BomY;
+	//fuck
 
 	BaseObject* EnemyBullet;
 };
