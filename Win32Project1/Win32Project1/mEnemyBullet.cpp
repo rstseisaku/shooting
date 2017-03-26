@@ -11,6 +11,8 @@ void mEnemyBullet::MyUpdate()
 		if ((*itr)->ObjectDeleteFlag) continue;
 		(*itr)->MyUpdate();
 	}
+
+
 }
 
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
