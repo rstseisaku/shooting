@@ -25,9 +25,10 @@ void mGameObject::MyUpdate()
 	_gl_KeyControlObject->Update(); // キーボード状態更新
 	if (GameStatus == GAMEPLAYING) {
 		MyUpdateGameplaying();
-	} else if ( GameStatus == GAMEOVER ) {
+	}
+	else if (GameStatus == GAMEOVER) {
 		MyUpdateGameover();
-	} 
+	}
 	else if (GameStatus == GAMESTART) {
 		MyUpdateGamestart();
 	}
@@ -64,19 +65,21 @@ void mGameObject::SetObject()
 	if (GameStatus == GAMESTART) {
 		// GAMESTART開始時に必要なものをセット
 		// (特になし)
-	} else if (GameStatus == GAMEPLAYING) {
+	}
+	else if (GameStatus == GAMEPLAYING) {
 		// ゲームプレイ開始時に必要なものをセット
 		mEnemyBulletObject = new mEnemyBullet();
-		Player = new PlayerObject(_T("Image/PlayerObject.png"), 0, 0); // プレイヤーオブジェクト
+		Player = new PlayerObject(_T("Image/PlayerObject.png"), 0, 0, mEnemyBulletObject); // プレイヤーオブジェクト
 		AddObject(mEnemyBulletObject); // 敵弾管理オブジェクト
-		AddObject(new mEnemy(mEnemyBulletObject,Player)); // 敵管理オブジェクト。敵弾管理オブジェクトを一緒に渡す。
+		AddObject(new mEnemy(mEnemyBulletObject, Player)); // 敵管理オブジェクト。敵弾管理オブジェクトを一緒に渡す。
 		AddObject(new PlayerDecorationObject(_T("Image/PDObject.png"))); // プレイヤーの当たり判定を表示
 		AddObject(Player);
-		AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト
+		//AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト
 		mScreen = new Screen(_T("Image/Screen.png"), 512, 288, Player);
-		AddObject( mScreen );
+		AddObject(mScreen);
 		ObjectList.sort(&comp);
-	} else if (GameStatus == GAMEOVER) {
+	}
+	else if (GameStatus == GAMEOVER) {
 		// ゲームオーバー開始時に必要なものをセット
 		// 全滅時の背景を表示
 		AddObject(new BackGround(_T("Image/gameover.png"), WindowCenterX, WindowCenterY));
@@ -86,30 +89,30 @@ void mGameObject::SetObject()
 
 // ゲーム状態の状態遷移。
 // オブジェクトの再配置を行う。
-void mGameObject::ChangeStatus( int Status )
+void mGameObject::ChangeStatus(int Status)
 {
-	GameStatus = Status ; // GameStatusをGAMEOVERに切り替える
+	GameStatus = Status; // GameStatusをGAMEOVERに切り替える
 	ClearObject();
 	SetObject();
 }
 
 
 /*
- * =====================================================
- * Statusに応じたUpdate処理
- * =====================================================
- */
+* =====================================================
+* Statusに応じたUpdate処理
+* =====================================================
+*/
 
- // GameStatusがGamestartなら呼び出す処理。
- // ゲームの初期化処理を担当する。
+// GameStatusがGamestartなら呼び出す処理。
+// ゲームの初期化処理を担当する。
 void mGameObject::MyUpdateGamestart()
 {
 	// 初期化処理。終了後、そのままプレイ中状態に遷移
 	_gl_KeyControlObject->Init();
-	_gl_mSoundObject->MyPlaySoundMem( _T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP );
 	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
-	_gl_mSoundObject->MyPlaySoundMem( _T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP );
-	_gl_mSoundObject->MyPlaySoundMem( _T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP );
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP);
+	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
 	x = 0;
 	y = 0;
 
@@ -123,7 +126,7 @@ void mGameObject::MyUpdateGameover()
 {
 	// ゲームオーバー画面での処理
 	if (_gl_KeyControlObject->Key[KEY_INPUT_ESCAPE] == 1)
-		ChangeStatus( GAMESTART );
+		ChangeStatus(GAMESTART);
 }
 
 // GameStatusがGamePlayingなら呼び出す処理。
@@ -139,7 +142,7 @@ void mGameObject::MyUpdateGameplaying()
 	// ゲームオーバー判定
 	if (Player->Life == -1) {
 		_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP);
-		ChangeStatus( GAMEOVER );
+		ChangeStatus(GAMEOVER);
 	}
 
 	// 衝突判定を行う

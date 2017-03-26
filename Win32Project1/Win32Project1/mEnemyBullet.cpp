@@ -14,7 +14,7 @@ void mEnemyBullet::MyUpdate()
 }
 
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
-	// 無敵時間であればあたり判定処理を行わない
+	// 無敵時間であればあたり判定処理を行わない++++
 	if ( ((PlayerObject *)PlayerObj)->InvincibleTime != 0 ) return; 
 
 	// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う

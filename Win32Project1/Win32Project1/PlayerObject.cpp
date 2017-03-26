@@ -1,15 +1,20 @@
 #include "stdafx.h"
 
-PlayerObject::PlayerObject( const TCHAR *FileName )
+PlayerObject::PlayerObject(const TCHAR *FileName)
 {
 	InitCommon(FileName);
 }
 
-PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX,int _CenterY)
+PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, BaseObject* EnemyBulletObject)
 {
 	InitCommon(FileName);
 	CenterX = _CenterX;
 	CenterY = _CenterY;
+
+	EnemyBullet = EnemyBulletObject;
+
+	GrazeHandle = _gl_mGraphicObject->MyLoadGraphic(_T("Image/graze.png"));
+	GetGraphSize(GrazeHandle, &GrazeWidth, &GrazeHeight);
 }
 
 PlayerObject::~PlayerObject()
@@ -30,20 +35,26 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 	Layer = Layer_PlayerObject;
 }
 
-void PlayerObject::MyUpdate() 
+void PlayerObject::MyUpdate()
 {
 	// プレイヤーの入力に応じて自機を移動させる
 	int Speed = 5;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_LSHIFT] >= 1) Speed /= 3;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_RIGHT] >= 1) CenterX += Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_LEFT] >= 1) CenterX -= Speed;
-	if (_gl_KeyControlObject->Key[KEY_INPUT_DOWN] >= 1) CenterY+= Speed;
+	if (_gl_KeyControlObject->Key[KEY_INPUT_DOWN] >= 1) CenterY += Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_UP] >= 1) CenterY -= Speed;
 
-	if (CenterX <= MoveableAreaLeft)  CenterX = MoveableAreaLeft;
-	if (CenterY <= MoveableAreaUpper)  CenterY = MoveableAreaUpper;
-	if (CenterX >= MoveableAreaRight)  CenterX = MoveableAreaRight;
-	if (CenterY >= MoveableAreaButtom)  CenterY = MoveableAreaButtom;
+	//ボムる
+	//押されている間範囲拡大
+	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] >= 1) PrepareBom(EnemyBullet);
+	//離された時解放
+	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] >= 1) ActivateBom(EnemyBullet);
+
+	if (CenterX <= 35)  CenterX = 35;
+	if (CenterY <= 35)  CenterY = 35;
+	if (CenterX >= 540)  CenterX = 540;
+	if (CenterY >= WindowSizeY - 35)  CenterY = WindowSizeY - 35;
 
 	// 自機をアニメーションさせる
 	if (++AnimationCounter == AnimationInterval) {
@@ -66,7 +77,7 @@ void PlayerObject::MyDraw()
 	SetDrawBlendMode(NORMAL, 255);
 	if (InvincibleTime > 0) {
 		InvincibleTime--; // 無敵時間を減らす
-		if (InvincibleTime > 60) {	SetDrawBlendMode(NORMAL, 127); } // 無敵時間中は半透明に表示
+		if (InvincibleTime > 60) { SetDrawBlendMode(NORMAL, 127); } // 無敵時間中は半透明に表示
 	}
 	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle[GraphicPattern], true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
@@ -81,13 +92,48 @@ void PlayerObject::MyDraw()
 		(*itr)->MyDraw();
 		itr++;
 	}
-
-	if (DEBUG) {
-		DrawFormatString(200, 450, GetColor(0, 255, 255), _T("(Screen)Life %d"), Life); // 文字を描画する
-		DrawFormatString(100, 50, GetColor(0, 255, 255), _T("x,y %f %f"), CenterX,CenterY); // 文字を描画する
-	}
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 	// 特にやることはない
+}
+
+void PlayerObject::PrepareBom(BaseObject* Bullet) {
+	BomSize = 75; // += 100.0 / 3 / 60;
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+	DrawGraph(CenterX - GrazeWidth/2, CenterY - GrazeHeight / 2, GrazeHandle, true);
+	
+/*	for (auto itr = Bullet->ObjectList.begin(); itr != Bullet->ObjectList.end(); ++itr) {
+		if ((*itr)->ObjectDeleteFlag) continue;
+		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
+		if (Hit == 1) {
+			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
+		}
+	}*/
+}
+
+void PlayerObject::ActivateBom(BaseObject* Bullet) {
+//	BomSize += 100.0 / 3 / 60;
+	for (auto itr = Bullet->ObjectList.begin(); itr != Bullet->ObjectList.end(); ++itr) {
+		if ((*itr)->ObjectDeleteFlag) continue;
+		int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
+		if (Hit == 1) {
+			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
+		}
+	}
+}
+
+int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {
+	// Xのサイズを判定として利用する
+	double ElpSizeX = BomSize; // 大きさ
+	double ElpSizeY = BomSize; // 
+												   // 点に楕円→真円変換行列を適用(Y方向へ拡大する)
+	double Ofs_x = PlayerX - Elp->CenterX;
+	double Ofs_y = PlayerY - Elp->CenterY;
+	double After_x = Ofs_x*cos(Elp->Angle) + Ofs_y*sin(Elp->Angle);
+	double After_y = ElpSizeX / ElpSizeY * (-Ofs_x*sin(Elp->Angle) + Ofs_y*cos(Elp->Angle));
+
+	// 原点から移動後点までの距離を算出
+	if (After_x*After_x + After_y*After_y <= ElpSizeX*ElpSizeX)	return 1;
+	return 0;
 }
