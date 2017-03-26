@@ -7,6 +7,7 @@ BaseEnemy::BaseEnemy(const TCHAR * FileName, mEnemyBullet * obj, PlayerObject * 
 	InitCommon(FileName);
 	mEnemyBulletObject = obj;
 	PlayerObjectInstance = _PlayerObjectInstance;
+	Pattern = NOSELECTED;
 }
 
 BaseEnemy::BaseEnemy(const TCHAR * FileName, mEnemyBullet * obj, PlayerObject * _PlayerObjectInstance, double _X, double _Y)
@@ -16,6 +17,7 @@ BaseEnemy::BaseEnemy(const TCHAR * FileName, mEnemyBullet * obj, PlayerObject * 
 	PlayerObjectInstance = _PlayerObjectInstance;
 	CenterX = _X;
 	CenterY = _Y;
+	Pattern = NOSELECTED;
 }
 
 BaseEnemy::~BaseEnemy()

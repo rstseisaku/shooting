@@ -10,9 +10,51 @@ Enemy::Enemy(const TCHAR * FileName, mEnemyBullet * obj, PlayerObject* obj2, dou
 
 void Enemy::MyUpdate()
 {
+	if (Pattern == NOSELECTED) {
+		Pattern = GetRand( PatternNum - 1 ) + 1 ; // NOSELECTED‚ð‘I‚Î‚È‚¢—l‚É
+		Count = 0;
+		Level = mEnemyObjectLevel;
+
+		Pattern = IYAGARASE;
+	}
+	else if ( Pattern == GURUGURU ) {
+		MyUpdateGuruguru();
+	}
+	else if (Pattern == KOUSA) {
+		MyUpdateKousa();
+	}
+	else if (Pattern == JIKINERAI) {
+		MyUpdateJikinerai();
+	}
+	else if (Pattern == IYAGARASE) {
+		MyUpdateIyagarase();
+	}
+}
+
+void Enemy::MyDraw() 
+{
+	// ‰æ‘œ‚Ì•`‰æ
+	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle, true);
+}
+
+void Enemy::MyPeculiarAction(BaseObject* obj) 
+{
+	// “Á‚É‰½‚à‚È‚¢
+}
+
+Enemy::~Enemy()
+{
+}
+
+
+
+/*
+ * ˆÈ‰º‚É’e–‹ƒpƒ^[ƒ“‚ð‘‚­
+ */
+void Enemy::MyUpdateGuruguru() {
 	Count++;
-	Count %= 1300;
-	if ( Count == 99 || Count == 299 ) {
+	if (Count == 900) Pattern = NOSELECTED;
+	if (Count == 99 || Count == 299) {
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
@@ -23,7 +65,7 @@ void Enemy::MyUpdate()
 		bp->Transparency = 200;
 		bp->vAngle = 8;
 		bp->Speed = 70.0;
-		bp->N = 12;
+		bp->N = (Level + 1) * 2;
 		bp->Span = 360.0 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 
@@ -44,6 +86,8 @@ void Enemy::MyUpdate()
 		mEnemyBulletObject->MakeBullet(bp);
 	}
 	if (Count == 199 || Count == 399) {
+		Level = mEnemyObjectLevel;
+
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
@@ -53,7 +97,7 @@ void Enemy::MyUpdate()
 		bp->Transparency = 200;
 		bp->vAngle = -8;
 		bp->Speed = 70.0;
-		bp->N = 12;
+		bp->N = (Level + 1) * 2;
 		bp->Span = 360.0 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 
@@ -73,11 +117,17 @@ void Enemy::MyUpdate()
 		bp->Angle += bp->Span / 3;
 		mEnemyBulletObject->MakeBullet(bp);
 	}
-	if (Count == 699) {
+}
+
+void Enemy::MyUpdateJikinerai() {
+	Count++;
+	if (Count == 600) Pattern = NOSELECTED;
+
+	if (Count == 90) {
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
-		bp->N = 20;
+		bp->N = (Level + 1) * 4;
 		bp->Span = 360.0 / bp->N;
 		bp->CompositeModeParameter = NORMAL;
 		bp->Angle = GetAngleToPlayer();
@@ -103,33 +153,62 @@ void Enemy::MyUpdate()
 		bp->vAngle = -12;
 		mEnemyBulletObject->MakeBullet(bp);
 	}
-	if (Count % 7 == 0 && Count >= 1100 && Count <= 1300) {
+}
+
+
+void Enemy::MyUpdateKousa() {
+	Count++;
+	if (Count == 510) Pattern = NOSELECTED;
+
+	int frequency = 30;
+	frequency -= Level * 2;
+	if (frequency < 10) frequency = 10;
+	if ( Count >= 90 && Count <= 450 && Count % frequency == 0  ) {
 		BulletPattern *bp = new BulletPattern();
 		bp->X = CenterX;
 		bp->Y = CenterY;
 		bp->FileName = _T("Image/bullet5_orange.png");
 		bp->CompositeModeParameter = ADD;
 		bp->Transparency = 200;
-		bp->Speed = 200.0 + ( Count - 1100 ) * 3;
+		bp->Speed = 250.0 + 10 * Level;
 		bp->Angle = GetAngleToPlayer();
-		bp->N = 5;
-		bp->Span = 70.0 / bp->N;
+		bp->N = ( Level * 2 ) + 1;
+		bp->Span = ( 80.0 + Level * 10 ) / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 	}
-
 }
 
-void Enemy::MyDraw() 
-{
-	// ‰æ‘œ‚Ì•`‰æ
-	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle, true);
-}
 
-void Enemy::MyPeculiarAction(BaseObject* obj) 
-{
-	// “Á‚É‰½‚à‚È‚¢
-}
+void Enemy::MyUpdateIyagarase() {
+	Count++;
+	if (Count == 600) Pattern = NOSELECTED;
 
-Enemy::~Enemy()
-{
+	int frequency = 40;
+	frequency -= Level * 2;
+	if (frequency < 10) frequency = 20;
+	if (Count >= 90 && Count <= 400 && Count % frequency == 0) {
+		BulletPattern *bp = new BulletPattern();
+		bp->X = CenterX;
+		bp->Y = CenterY;
+		bp->Angle = GetAngleToPlayer();
+		bp->CompositeModeParameter = ADD;
+		bp->Transparency = 200;
+		bp->vAngle = 0.6 + Level*0.15;
+
+		bp->FileName = _T("Image/bullet5_orange.png");
+		bp->Speed = 160.0 - 7 * Level;
+		if (bp->Speed <= 100) bp->Speed = 100;
+		bp->N = 4 + Level * 2;
+		if (bp->N >= 12) bp->N = 12;
+		bp->Span = 180 / bp->N;
+		mEnemyBulletObject->MakeBullet(bp);
+
+		bp->FileName = _T("Image/bullet5_white.png");
+		bp->Speed = 210.0 + 7 * Level;
+		if (bp->Speed >= 320) bp->Speed = 320;
+		bp->N = 5 + Level * 2;
+		if (bp->N >= 12) bp->N = 13;
+		bp->Span = 180 / bp->N;
+		mEnemyBulletObject->MakeBullet(bp);
+	}
 }

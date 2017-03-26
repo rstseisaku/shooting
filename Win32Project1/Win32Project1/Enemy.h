@@ -11,4 +11,8 @@ public:
 	void MyDraw();
 	void MyPeculiarAction(BaseObject* obj);
 	~Enemy();
+	void MyUpdateGuruguru();
+	void MyUpdateJikinerai();
+	void MyUpdateKousa();
+	void MyUpdateIyagarase();
 };

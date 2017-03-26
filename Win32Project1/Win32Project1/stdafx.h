@@ -58,6 +58,7 @@
 #define MoveableAreaButtom 540
 #define MoveableAreaUpper 35
 #define M_PI 3.1415926535
+#define PatternNum 4
 
 /*
 * 背景管理オブジェクト ⇒ 背景			 Layer = (0)
@@ -77,6 +78,7 @@
 
 enum CompositeMode { NORMAL = DX_BLENDMODE_PMA_ALPHA, ADD = DX_BLENDMODE_PMA_ADD, SUB = DX_BLENDMODE_PMA_SUB };
 enum GameStatus { GAMESTART, GAMEPLAYING, GAMEOVER };
+enum BulletCurtainPattern { NOSELECTED, JIKINERAI, GURUGURU, KOUSA, IYAGARASE };
 
 // グローバル変数として，画像管理オブジェクトを 1 つだけ保持
 extern mGraphic* _gl_mGraphicObject;

@@ -15,21 +15,8 @@ mEnemy::mEnemy(BaseObject* _mEnemyBulletObject, BaseObject*  _PlayerObject) {
 		FieldCenterX,
 		FieldCenterY));
 
-	/*
-	AddObject(
-		new Enemy2(_T("Image/enemy1.png"),
-		(mEnemyBullet *)mEnemyBulletObject,
-			(PlayerObject *)PlayerObjectInstance,
-			FieldCenterX -170,
-			FieldCenterY));
-
-	AddObject(
-		new Enemy2(_T("Image/enemy1.png"),
-		(mEnemyBullet *)mEnemyBulletObject,
-			(PlayerObject *)PlayerObjectInstance,
-			FieldCenterX + 170,
-			FieldCenterY));
-	*/
+	Level = 0;
+	Counter = 0;
 }
 
 mEnemy::~mEnemy()
@@ -41,8 +28,13 @@ void mEnemy::MyUpdate()
 	// 子オブジェクトのUpdateを呼び出す
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
+		((Enemy*)(*itr))->mEnemyObjectLevel = Level; // 敵オブジェクトとのレベル同期
 		(*itr)->MyUpdate();
 	}
+
+	// レベル上昇
+	Counter = ((++Counter) % 600);
+	if (Counter == 0) Level++;
 }
 
 void mEnemy::MyDraw()

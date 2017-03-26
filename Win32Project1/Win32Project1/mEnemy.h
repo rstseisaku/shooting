@@ -15,5 +15,8 @@ public:
 
 	BaseObject* mEnemyBulletObject;
 	BaseObject* PlayerObjectInstance;
+
+	int Level;
+	int Counter;
 };
 

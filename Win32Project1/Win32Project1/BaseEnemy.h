@@ -12,5 +12,9 @@ public:
 	int Count = 0;
 	mEnemyBullet* mEnemyBulletObject;
 	PlayerObject* PlayerObjectInstance;
+
+	int mEnemyObjectLevel;
+	int Level;
+	int Pattern;
 };
 
