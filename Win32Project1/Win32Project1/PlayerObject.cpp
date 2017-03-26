@@ -91,7 +91,7 @@ void PlayerObject::MyUpdate()
 		}
 	}
 	if (ShowScore == TRUE){
-		DrawFormatString(BomX, BomY + 40, GetColor(255, 255, 255), _T("+%d"), (int)tmp);
+		DrawFormatString(BomX, BomY - 40, GetColor(255, 255, 255), _T("+%d"), (int)tmp);
 		if (Counter == 0)
 			ShowScore = FALSE;
 		Counter--;
@@ -173,10 +173,11 @@ void PlayerObject::ActivateBom() {
 }
 
 void PlayerObject::CloseBom() {
-
+	//ボムの終了処理
 	UsingBom = FALSE;
 	BomSize = 0.0;
 	EraseScore += tmp;
+	//ボムで得たスコアを表示
 	ShowScore = TRUE;
 	Counter = 60;
 }
