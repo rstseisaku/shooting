@@ -25,7 +25,7 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 
 	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
 	Life = 3;
-	InvincibleTime = 0;
+	InvincibleTime = 9999999;
 
 	Layer = Layer_PlayerObject;
 }
@@ -40,10 +40,10 @@ void PlayerObject::MyUpdate()
 	if (_gl_KeyControlObject->Key[KEY_INPUT_DOWN] >= 1) CenterY+= Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_UP] >= 1) CenterY -= Speed;
 
-	if (CenterX <= 35)  CenterX = 35;
-	if (CenterY <= 35)  CenterY = 35;
-	if (CenterX >= 540 )  CenterX = 540;
-	if (CenterY >= WindowSizeY - 35)  CenterY = WindowSizeY - 35;
+	if (CenterX <= MoveableAreaLeft)  CenterX = MoveableAreaLeft;
+	if (CenterY <= MoveableAreaUpper)  CenterY = MoveableAreaUpper;
+	if (CenterX >= MoveableAreaRight)  CenterX = MoveableAreaRight;
+	if (CenterY >= MoveableAreaButtom)  CenterY = MoveableAreaButtom;
 
 	// 自機をアニメーションさせる
 	if (++AnimationCounter == AnimationInterval) {
@@ -82,8 +82,10 @@ void PlayerObject::MyDraw()
 		itr++;
 	}
 
-	if (DEBUG)
+	if (DEBUG) {
 		DrawFormatString(200, 450, GetColor(0, 255, 255), _T("(Screen)Life %d"), Life); // 文字を描画する
+		DrawFormatString(100, 50, GetColor(0, 255, 255), _T("x,y %f %f"), CenterX,CenterY); // 文字を描画する
+	}
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {

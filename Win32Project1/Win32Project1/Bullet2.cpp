@@ -44,20 +44,8 @@ Bullet2::~Bullet2()
 }
 
 void Bullet2::MyUpdate() {
-	Angle = fmod(Angle,360);
-	if (Angle < 0) Angle += 360;
-
-	CenterX += cos( Angle / 180 * M_PI ) * Speed;
-	CenterY += sin( Angle / 180 * M_PI ) * Speed;
-
-	Angle += vAngle;
-	vAngle *= vAngleRate;
-
-
-	if (CenterX < -100) ObjectDeleteFlag = true;
-	if (CenterY < -100) ObjectDeleteFlag = true;
-	if (CenterX > 640) ObjectDeleteFlag = true;
-	if (CenterY > WindowSizeY + 65) ObjectDeleteFlag = true;
+	MoveFromAngle();
+	Reflect();
 }
 
 void Bullet2::MyDraw() {
@@ -90,6 +78,8 @@ void Bullet2::MyDraw() {
 		GraphicHandle, true);
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
+
+	DrawFormatString(100, 400, GetColor(0, 255, 255), _T("angle %f"), Angle); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
 void Bullet2::MyPeculiarAction(BaseObject * obj)

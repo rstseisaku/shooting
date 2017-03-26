@@ -39,6 +39,7 @@
 #include "BulletPattern.h"
 #include "mEnemy.h"
 #include "Enemy.h"
+#include "Enemy2.h"
 #include "AnimationObject.h"
 
 #include "KeyControl.h"
@@ -51,6 +52,10 @@
 #define WindowCenterY 288
 #define FieldCenterX 288
 #define FieldCenterY 288
+#define MoveableAreaLeft 35
+#define MoveableAreaRight 540
+#define MoveableAreaButtom 540
+#define MoveableAreaUpper 35
 #define M_PI 3.1415926535
 
 /*

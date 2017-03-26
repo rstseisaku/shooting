@@ -14,7 +14,5 @@ public:
 	void MyUpdate();
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
-
-	double Speed;
 };
 
