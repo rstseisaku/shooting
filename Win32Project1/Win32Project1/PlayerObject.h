@@ -28,7 +28,7 @@ public:
 	int Life;
 	int InvincibleTime;
 	int Graze;
-	double BomSize = 0.0;
+	double BomSize;
 	int GrazeHandle;
 	int GrazeWidth;
 	int GrazeHeight;
