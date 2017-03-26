@@ -18,7 +18,7 @@ Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY)
 	CenterY = _CenterY;
 }
 
-Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY, int _vx,int _vy)
+Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY, double _vx, double _vy)
 {
 	InitCommon(FileName);
 	CenterX = _CenterX;
@@ -27,7 +27,8 @@ Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY, int _vx,int _
 	vy = _vy;
 }
 
-Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY, int _vx, int _vy,int _vvx,int _vvy)
+Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY,
+	double _vx, double _vy, double _vvx, double _vvy)
 {
 	InitCommon(FileName);
 	CenterX = _CenterX;
@@ -48,10 +49,17 @@ void Bullet::MyUpdate()
 	vy += vvy;
 	CenterX += vx;
 	CenterY += vy;
+
+	// äpìxÇÃçXêV
+	Angle = atan2(vy, vx);
+	Angle = Angle * 180.0 / M_PI;
 }
 
 void Bullet::MyDraw() {
-	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle, true);
+	SetDrawBlendMode(Mode, Transparency);
+	DrawRotaGraph((int)CenterX, (int)CenterY, 1.0, Angle / 180 * M_PI,
+		GraphicHandle, true);
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 }
 
 void Bullet::MyPeculiarAction(BaseObject * obj) {

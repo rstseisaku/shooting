@@ -15,7 +15,7 @@ void Enemy::MyUpdate()
 		Count = 0;
 		Level = mEnemyObjectLevel;
 
-		// Pattern = IYAGARASE;
+		Pattern = JIYUURAKKA;
 	}
 	else if ( Pattern == GURUGURU ) {
 		MyUpdateGuruguru();
@@ -28,6 +28,9 @@ void Enemy::MyUpdate()
 	}
 	else if (Pattern == IYAGARASE) {
 		MyUpdateIyagarase();
+	}
+	else if (Pattern == JIYUURAKKA) {
+		MyUpdateJiyurakka();
 	}
 }
 
@@ -178,7 +181,6 @@ void Enemy::MyUpdateKousa() {
 	}
 }
 
-
 void Enemy::MyUpdateIyagarase() {
 	Count++;
 	if (Count == 600) Pattern = NOSELECTED;
@@ -210,5 +212,26 @@ void Enemy::MyUpdateIyagarase() {
 		if (bp->N >= 12) bp->N = 13;
 		bp->Span = 180 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
+	}
+}
+
+void Enemy::MyUpdateJiyurakka() {
+	Count++;
+	if (Count == 600) Pattern = NOSELECTED;
+
+	if (Count == 30) {
+		int Way = 60 + Level * 3;
+		double vx, vy, vvx, vvy;
+		vvx = 0;
+		for (int i = 0; i < Way; i++) {
+			vx = GetRand(10)*0.1 - 0.5;
+			vy = GetRand(10)*0.2 - 4;
+			vvy = GetRand(10)*0.01 + 0.02;
+			Bullet* tmp = new Bullet(
+				_T("Image/bullet4_blue.png"),
+				CenterX, CenterY,
+				vx, vy, vvx, vvy);
+			mEnemyBulletObject->AddObject(tmp);
+		}
 	}
 }

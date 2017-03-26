@@ -15,4 +15,5 @@ public:
 	void MyUpdateJikinerai();
 	void MyUpdateKousa();
 	void MyUpdateIyagarase();
+	void MyUpdateJiyurakka();
 };

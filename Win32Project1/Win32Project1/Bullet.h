@@ -8,8 +8,8 @@ public:
 	Bullet();
 	Bullet(const TCHAR * FileName);
 	Bullet(const TCHAR * FileName, int _LeftX, int _UpperY);
-	Bullet(const TCHAR * FileName, int _LeftX, int _UpperY, int _vx, int _vy);
-	Bullet(const TCHAR * FileName, int _LeftX, int _UpperY, int _vx, int _vy, int _vvx, int _vvy);
+	Bullet(const TCHAR * FileName, int _LeftX, int _UpperY, double _vx, double _vy);
+	Bullet(const TCHAR * FileName, int _LeftX, int _UpperY, double _vx, double _vy, double _vvx, double _vvy);
 	~Bullet();
 
 	void MyDraw();
@@ -21,5 +21,6 @@ public:
 	double vy;
 	double vvx;
 	double vvy;
+	double Angle;
 };
 
