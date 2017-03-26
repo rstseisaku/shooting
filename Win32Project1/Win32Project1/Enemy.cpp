@@ -13,9 +13,10 @@ void Enemy::MyUpdate()
 	if (Pattern == NOSELECTED) {
 		Pattern = GetRand( PatternNum - 1 ) + 1 ; // NOSELECTED‚ð‘I‚Î‚È‚¢—l‚É
 		Count = 0;
+		val1 = 0;
 		Level = mEnemyObjectLevel;
 
-		// Pattern = JIYUURAKKA;
+		Pattern = GURUGURU2;
 	}
 	else if ( Pattern == GURUGURU ) {
 		MyUpdateGuruguru();
@@ -31,6 +32,9 @@ void Enemy::MyUpdate()
 	}
 	else if (Pattern == JIYUURAKKA) {
 		MyUpdateJiyurakka();
+	}
+	else if (Pattern == GURUGURU2) {
+		MyUpdateGuruguru2();
 	}
 }
 
@@ -219,19 +223,34 @@ void Enemy::MyUpdateJiyurakka() {
 	Count++;
 	if (Count == 600) Pattern = NOSELECTED;
 
-	if (Count == 30) {
-		int Way = 60 + Level * 3;
+	if ( Count == 30 || Count == 60 || Count == 90 || Count == 120 ) {
+		if (Level <= 2 && Count == 90) return;
+		if (Level <= 3 && Count == 120) return;
+
+		int Way = 20 + Level * 4;
+		if (Way >= 56) Way = 56;
 		double vx, vy, vvx, vvy;
 		vvx = 0;
 		for (int i = 0; i < Way; i++) {
-			vx = GetRand(10)*0.25 - 1.25;
-			vy = GetRand(10)*0.2 - 4;
-			vvy = GetRand(10)*0.01 + 0.02;
+			vx = GetRand(10)*0.4 - 2.00;
+			vy = GetRand(10)*0.1 - 5.5;
+			vvy = GetRand(10)*0.01 + 0.04;
 			Bullet* tmp = new Bullet(
 				_T("Image/bullet4_blue.png"),
 				CenterX, CenterY,
 				vx, vy, vvx, vvy);
 			mEnemyBulletObject->AddObject(tmp);
 		}
+	}
+}
+
+
+void Enemy::MyUpdateGuruguru2() {
+	Count++;
+	if (Count == 600) Pattern = NOSELECTED;
+
+	if ( (Count %= 3 ) == 0) {
+		Angle += val1;
+		val1++;
 	}
 }

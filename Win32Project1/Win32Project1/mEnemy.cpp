@@ -34,7 +34,9 @@ void mEnemy::MyUpdate()
 
 	// ƒŒƒxƒ‹ã¸
 	Counter = ((++Counter) % 600);
-	if (Counter == 0) Level++;
+	if ( Counter == 0) Level++;
+
+	((PlayerObject*)PlayerObjectInstance)->EnemyLevel = Level;
 }
 
 void mEnemy::MyDraw()
