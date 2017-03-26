@@ -26,7 +26,7 @@ public:
 	int Fadeout = -1; // フェードアウトのフレームを算出
 	int vTransparency = -1; // 透過度変化
 
-	double GrazeScore; // かすった時に加算されるスコア
-	double EraseScore; // ボムで消える時に加算されるスコア
+	int GrazeScore = 1; // かすった時に加算されるスコア
+	double EraseScore = 1.0; // ボムで消える時に加算されるスコア
 };
 

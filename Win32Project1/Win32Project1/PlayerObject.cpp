@@ -12,7 +12,7 @@ PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, Ba
 	CenterY = _CenterY;
 
 	EnemyBullet = EnemyBulletObject;
-
+	//弾消し用の画像
 	GrazeHandle = _gl_mGraphicObject->MyLoadGraphic(_T("Image/graze.png"));
 }
 
@@ -31,6 +31,8 @@ void PlayerObject::InitCommon(const TCHAR *FileName) {
 	Life = 3;
 	InvincibleTime = 0;
 	BomSize = 0.0;
+	GrazeScore = 0.0;
+	EraseScore = 0.0;
 
 	Layer = Layer_PlayerObject;
 }
@@ -71,7 +73,7 @@ void PlayerObject::MyUpdate()
 		(*itr)->MyUpdate();
 	}
 
-	// ボムで為を消す処理
+	// ボムで弾を消す処理
 	if (UsingBom == TRUE) {
 		for (auto itr = EnemyBullet->ObjectList.begin(); itr != EnemyBullet->ObjectList.end(); ++itr) {
 			if ((*itr)->ObjectDeleteFlag) continue;
@@ -79,12 +81,20 @@ void PlayerObject::MyUpdate()
 			if (Hit == 1) {
 				((BaseObject2D*)(*itr))->Fadeout = 60; // 60フレームかけて弾をフェードアウト消去
 				((BaseObject2D*)(*itr))->NoHitFlag = true; // 当たり判定の除去
+				tmp += ((BaseObject2D*)(*itr))->EraseScore; //ポイント加算
 			}
 		}
-		Counter--;
+		Counter--;	//フレーム進める
+		//60フレーム経ったらボムを終了
 		if (Counter == 0) {
 			CloseBom();
 		}
+	}
+	if (ShowScore == TRUE){
+		DrawFormatString(BomX, BomY + 40, GetColor(255, 255, 255), _T("+%d"), (int)tmp);
+		if (Counter == 0)
+			ShowScore = FALSE;
+		Counter--;
 	}
 }
 
@@ -109,31 +119,26 @@ void PlayerObject::MyDraw()
 		(*itr)->MyDraw();
 		itr++;
 	}
+	
+	//ボムを使ってない場合
+	//Sizeが100未満の時は薄く表示する
 	if (UsingBom == FALSE) {
 		if (BomSize < 100) {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
 			DrawRotaGraph(CenterX, CenterY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		}
+		//Sizeが100以上の時は濃く表示する
 		else if (BomSize >= 100) {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 			DrawRotaGraph(CenterX, CenterY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		}
 	}
+	//ボムった時はその場に画像を置いていく
 	else if (UsingBom == TRUE) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawRotaGraph(BomX, BomY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-	}
-	if(BomSize < 100) {
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
-		DrawRotaGraph(CenterX, CenterY, ( 2 / 3 ) * BomSize / 150, 0.0, GrazeHandle, true);
-		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
-	}
-	else if (BomSize >= 100) {
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
-		DrawRotaGraph(CenterX, CenterY, ( 2 / 3 ) * BomSize / 150, 0.0, GrazeHandle, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 	}
 }
@@ -145,6 +150,7 @@ void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 void PlayerObject::ActivateBom() {
 	// 範囲内の弾幕を消す
 	UsingBom = TRUE;
+	tmp = 0.0;
 	Counter = 60;
 	BomX = CenterX;
 	BomY = CenterY;
@@ -170,6 +176,9 @@ void PlayerObject::CloseBom() {
 
 	UsingBom = FALSE;
 	BomSize = 0.0;
+	EraseScore += tmp;
+	ShowScore = TRUE;
+	Counter = 60;
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {

@@ -43,7 +43,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 			((BaseObject2D *)(*itr))->GrazeFlag = true;
 			_gl_mSoundObject->MyPlaySoundMem(_T("Sound/hit27.wav"), DX_PLAYTYPE_BACK); // ƒOƒŒƒCƒY‰¹Ä¶
 			((PlayerObject *)PlayerObj)->BomSize += 5.0;
-			((PlayerObject *)PlayerObj)->Graze += 1;
+			((PlayerObject *)PlayerObj)->GrazeScore += ((BaseObject2D *)(*itr))->GrazeScore;
 		}
 	}
 }

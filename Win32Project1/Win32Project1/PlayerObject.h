@@ -27,7 +27,8 @@ public:
 	int AnimationCounter = 0;
 	int Life;
 	int InvincibleTime;
-	int Graze;
+	int GrazeScore;
+	double EraseScore;
 	double BomSize;
 	int GrazeHandle;
 	int EnemyLevel;
@@ -35,6 +36,8 @@ public:
 	int Counter;
 	int BomX;
 	int BomY;
+	double tmp;
+	bool ShowScore;
 
 	int GetItemNum; // 拾ったアイテムの個数
 	int GetRareItemNum;  // 拾ったハイスコアアイテムの個数
