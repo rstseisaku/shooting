@@ -17,6 +17,7 @@ mGameObject::mGameObject()
 
 mGameObject::~mGameObject()
 {
+	//‚¢‚¶‚Á‚½
 }
 
 void mGameObject::MyUpdate()
