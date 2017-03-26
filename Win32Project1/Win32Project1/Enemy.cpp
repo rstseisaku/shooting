@@ -16,7 +16,7 @@ void Enemy::MyUpdate()
 		val1 = 0;
 		Level = mEnemyObjectLevel;
 
-		// Pattern = GURUGURU2;
+		Pattern = GURUGURU2;
 	}
 	else if ( Pattern == GURUGURU ) {
 		MyUpdateGuruguru();
@@ -249,19 +249,20 @@ void Enemy::MyUpdateGuruguru2() {
 	Count++;
 	if (Count == 600) Pattern = NOSELECTED;
 	
-	int tmp = Count % ( 18 - Level );
-	if (tmp <= 7) tmp = 7;
-	if ( tmp == 0 && Count <= 360 && Count >= 60) {
+	int tmp = 7 - Level;
+	if ( tmp <= 4) tmp = 4;
+	int tmp2 = Count % tmp;
+	if ( tmp2 == 0 && Count <= 360 && Count >= 60) {
 		Angle += val1;
 		val1++;
 
 		BulletPattern *bp = new BulletPattern();
-		bp->FileName = _T("Image/bullet5_white.png");
+		bp->FileName = _T("Image/bullet6_white.png");
 		bp->Speed = 200.0 + Level * 10;
 		bp->Angle = Angle;
 		if (bp->Speed >= 320) bp->Speed = 320;
-		bp->N = 12 + Level;
-		if (bp->N >= 20) bp->N = 20;
+		bp->N = 8 + Level;
+		if (bp->N >= 24) bp->N = 24;
 		bp->Span = 360 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 	}
