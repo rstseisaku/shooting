@@ -25,5 +25,8 @@ public:
 	bool NoHitFlag = false; // 当たり判定消去中
 	int Fadeout = -1; // フェードアウトのフレームを算出
 	int vTransparency = -1; // 透過度変化
+
+	int GrazeScore; // かすった時に加算されるスコア
+	int EraseScore; // ボムで消える時に加算されるスコア
 };
 
