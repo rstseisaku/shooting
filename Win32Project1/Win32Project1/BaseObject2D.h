@@ -27,6 +27,6 @@ public:
 	int vTransparency = -1; // 透過度変化
 
 	int GrazeScore = 1; // かすった時に加算されるスコア
-	double EraseScore = 1.0; // ボムで消える時に加算されるスコア
+	double EraseScore = 1.0; // ボムで消える時に加算されるスコア。(1フレームあたり)
 };
 

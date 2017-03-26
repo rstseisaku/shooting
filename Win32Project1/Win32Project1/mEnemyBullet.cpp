@@ -63,7 +63,7 @@ void mEnemyBullet::MyDraw()
 
 	if (DEBUG) {
 		DrawFormatString(45, 45, GetColor(0, 255, 255), _T("弾数 %d"), ObjectList.size()); // 文字を描画する
-		DrawFormatString(45, 65, GetColor(0, 255, 255), _T("グレイズ/ボム %d,%d"), SetGrazeScore, SetEraseScore); // 文字を描画する
+		DrawFormatString(45, 65, GetColor(0, 255, 255), _T("グレイズ/ボム %d,%f"), SetGrazeScore, SetEraseScore); // 文字を描画する
 	}
 }
 
