@@ -139,18 +139,6 @@ void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 	// “Á‚É‚â‚é‚±‚Æ‚Í‚È‚¢
 }
 
-void PlayerObject::PrepareBom(BaseObject* Bullet) {
-	//BomSize /*= 75; /*/ += 100.0 / 3 / 60;
-
-	if (DEBUG) {
-		DrawFormatString(200, 400, GetColor(0, 255, 255), _T("BomSize %lf"), BomSize); // •¶š‚ğ•`‰æ‚·‚é
-	}
-}
-
-void PlayerObject::MyPeculiarAction(BaseObject * obj) {
-	// “Á‚É‚â‚é‚±‚Æ‚Í‚È‚¢
-}
-
 void PlayerObject::ActivateBom() {
 	// ”ÍˆÍ“à‚Ì’e–‹‚ğÁ‚·
 
