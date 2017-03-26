@@ -13,7 +13,8 @@ public:
 
 	PlayerObject* PlayerObj;
 	int ScoreFont;
-	double Score;
+	double TimeScore;
+	double GrazeScore;
 	int HighScore;
 };
 
