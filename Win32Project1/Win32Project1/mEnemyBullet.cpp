@@ -45,6 +45,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 		} else if (Hit == 2) {
 			((BaseObject2D *)(*itr))->GrazeFlag = true;
 			_gl_mSoundObject->MyPlaySoundMem(_T("Sound/hit27.wav"), DX_PLAYTYPE_BACK); // ”í’e‰¹Ä¶
+			((PlayerObject *)PlayerObj)->BomSize += 5.0;
 		}
 	}
 }

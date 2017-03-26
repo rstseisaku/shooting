@@ -51,6 +51,9 @@ void PlayerObject::MyUpdate()
 	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] >= 1) PrepareBom(EnemyBullet);
 	//—£‚³‚ê‚½Žž‰ð•ú
 	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) ActivateBom(EnemyBullet);
+	BomSize += 100.0 / 60 / 30;
+	if (BomSize > MaxBomSize)
+		BomSize = MaxBomSize;
 
 	if (CenterX <= 35)  CenterX = 35;
 	if (CenterY <= 35)  CenterY = 35;
@@ -93,6 +96,14 @@ void PlayerObject::MyDraw()
 		(*itr)->MyDraw();
 		itr++;
 	}
+	if(BomSize < 100) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
+		DrawRotaGraph(CenterX, CenterY, 2 * BomSize / 150, 0.0, GrazeHandle, true);
+	}
+	else if (BomSize >= 100) {
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+		DrawRotaGraph(CenterX, CenterY, 2 * BomSize / 150, 0.0, GrazeHandle, true);
+	}
 }
 
 void PlayerObject::MyPeculiarAction(BaseObject * obj) {
@@ -100,9 +111,8 @@ void PlayerObject::MyPeculiarAction(BaseObject * obj) {
 }
 
 void PlayerObject::PrepareBom(BaseObject* Bullet) {
-	BomSize /*= 75; /*/ += 100.0 / 3 / 60;
-	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
-	DrawRotaGraph(CenterX, CenterY, BomSize/150, 0.0, GrazeHandle, true);
+	//BomSize /*= 75; /*/ += 100.0 / 3 / 60;
+
 	if (DEBUG) {
 		DrawFormatString(200, 400, GetColor(0, 255, 255), _T("BomSize %lf"), BomSize); // •¶Žš‚ð•`‰æ‚·‚é
 	}
