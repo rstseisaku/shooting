@@ -24,14 +24,15 @@ Screen::~Screen()
 
 void Screen::MyUpdate()
 {
-	Score += 1.0 / 60;
+	TimeScore += 1.0 / 60;
+	GrazeScore = PlayerObj->Graze;
 }
 
 void Screen::MyDraw() {
 	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle, true);
 	if (DEBUG)
 		DrawFormatString(600, 200, GetColor(0, 255, 255), _T("(Screen)Life %d"), PlayerObj->Life); // 文字を描画する
-		DrawFormatStringToHandle(600, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)Score); // スコア
+		DrawFormatStringToHandle(600, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)(TimeScore + GrazeScore)); // スコア
 		DrawFormatString(600, 470, GetColor(0, 255, 255), _T("%d"), HighScore); // ハイスコア
 }
 
