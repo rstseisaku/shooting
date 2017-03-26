@@ -27,7 +27,8 @@ public:
 	int AnimationCounter = 0;
 	int Life;
 	int InvincibleTime;
-	int Graze;
+	int GrazeScore;
+	double EraseScore;
 	double BomSize;
 	int GrazeHandle;
 	int EnemyLevel;
@@ -35,7 +36,8 @@ public:
 	int Counter;
 	int BomX;
 	int BomY;
-	//fuck
+	double tmp;
+	bool ShowScore;
 
 	BaseObject* EnemyBullet;
 };
