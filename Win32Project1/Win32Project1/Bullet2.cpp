@@ -78,7 +78,7 @@ void Bullet2::MyDraw() {
 	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
 
-	DrawFormatString(100, 400, GetColor(0, 255, 255), _T("angle %f"), Angle); // •¶Žš‚ð•`‰æ‚·‚é
+	//DrawFormatString(100, 400, GetColor(0, 255, 255), _T("angle %f"), Angle); // •¶Žš‚ð•`‰æ‚·‚é
 }
 
 void Bullet2::MyPeculiarAction(BaseObject * obj)
