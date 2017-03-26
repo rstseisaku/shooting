@@ -157,12 +157,14 @@
   <ItemGroup>
     <ClInclude Include="AnimationObject.h" />
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="BaseObject2D.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Bullet2.h" />
     <ClInclude Include="BulletPattern.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy2.h" />
     <ClInclude Include="KeyControl.h" />
     <ClInclude Include="mEnemy.h" />
     <ClInclude Include="mEnemyBullet.h" />
@@ -180,12 +182,14 @@
   <ItemGroup>
     <ClCompile Include="AnimationObject.cpp" />
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BaseEnemy.cpp" />
     <ClCompile Include="BaseObject.cpp" />
     <ClCompile Include="BaseObject2D.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Bullet2.cpp" />
     <ClCompile Include="BulletPattern.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy2.cpp" />
     <ClCompile Include="KeyControl.cpp" />
     <ClCompile Include="mEnemy.cpp" />
     <ClCompile Include="mEnemyBullet.cpp" />

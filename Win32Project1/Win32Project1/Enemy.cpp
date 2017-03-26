@@ -3,20 +3,10 @@
 
 
 Enemy::Enemy(const TCHAR * FileName, mEnemyBullet* obj, PlayerObject* obj2)
-{
-	InitCommon(FileName);
-	mEnemyBulletObject = obj;
-	PlayerObjectInstance = obj2;
-}
+	: BaseEnemy(FileName, obj, obj2) {}
 
 Enemy::Enemy(const TCHAR * FileName, mEnemyBullet * obj, PlayerObject* obj2, double _X, double _Y)
-{
-	InitCommon(FileName);
-	mEnemyBulletObject = obj;
-	CenterX = _X;
-	CenterY = _Y;
-	PlayerObjectInstance = obj2;
-}
+	: BaseEnemy(FileName, obj, obj2, _X, _Y) {}
 
 void Enemy::MyUpdate()
 {
@@ -142,14 +132,4 @@ void Enemy::MyPeculiarAction(BaseObject* obj)
 
 Enemy::~Enemy()
 {
-}
-
-
-double Enemy::GetAngleToPlayer() {
-	// ©‹@‚Ö‚ÌŠp“x‚ğ‹‚ß‚é
-	double Ans = 
-		atan2(PlayerObjectInstance->CenterY - CenterY,
-			PlayerObjectInstance->CenterX - CenterX);
-	Ans = Ans * 180.0 / M_PI; // “x = ƒ‰ƒWƒAƒ“ ~ 180 € ‰~ü—¦
-	return Ans;
 }
