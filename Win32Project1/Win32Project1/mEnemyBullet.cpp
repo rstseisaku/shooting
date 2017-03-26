@@ -44,8 +44,9 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 			break; // 同フレームで複数の弾に当たらない
 		} else if (Hit == 2) {
 			((BaseObject2D *)(*itr))->GrazeFlag = true;
-			_gl_mSoundObject->MyPlaySoundMem(_T("Sound/hit27.wav"), DX_PLAYTYPE_BACK); // 被弾音再生
+			_gl_mSoundObject->MyPlaySoundMem(_T("Sound/hit27.wav"), DX_PLAYTYPE_BACK); // グレイズ音再生
 			((PlayerObject *)PlayerObj)->BomSize += 5.0;
+			((PlayerObject *)PlayerObj)->Graze += 1;
 		}
 	}
 }
