@@ -21,7 +21,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		int Hit = ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr));
-		if ( Hit == 1 && (((PlayerObject *)PlayerObj)->InvincibleTime != 0) ) {
+		if ( Hit == 1 && (((PlayerObject *)PlayerObj)->InvincibleTime == 0) ) {
 			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
 			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
 			((PlayerObject *)PlayerObj)->InvincibleTime = 120; // 無敵時間をセット
@@ -39,7 +39,7 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 
 			_gl_mSoundObject->MyPlaySoundMem( _T("Sound/bom18.wav"), DX_PLAYTYPE_BACK ); // 被弾音再生
 			break; // 同フレームで複数の弾に当たらない
-		} else if (Hit == 2) {
+		} else if (Hit >= 2) {
 			((BaseObject2D *)(*itr))->GrazeFlag = true;
 			_gl_mSoundObject->MyPlaySoundMem(_T("Sound/hit27.wav"), DX_PLAYTYPE_BACK); // グレイズ音再生
 			((PlayerObject *)PlayerObj)->BomSize += 5.0;
