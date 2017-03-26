@@ -18,5 +18,5 @@ public:
 	void MyUpdateJiyurakka();
 	void MyUpdateGuruguru2();
 
-	int val1;
+	double val1;
 };

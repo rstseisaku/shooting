@@ -166,6 +166,7 @@
     <ClInclude Include="BulletPattern.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Enemy2.h" />
+    <ClInclude Include="ItemObject.h" />
     <ClInclude Include="KeyControl.h" />
     <ClInclude Include="mEnemy.h" />
     <ClInclude Include="mEnemyBullet.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="BulletPattern.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy2.cpp" />
+    <ClCompile Include="ItemObject.cpp" />
     <ClCompile Include="KeyControl.cpp" />
     <ClCompile Include="mEnemy.cpp" />
     <ClCompile Include="mEnemyBullet.cpp" />

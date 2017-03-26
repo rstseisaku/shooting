@@ -17,7 +17,6 @@ mGameObject::mGameObject()
 
 mGameObject::~mGameObject()
 {
-	//いじった
 }
 
 void mGameObject::MyUpdate()
@@ -110,9 +109,6 @@ void mGameObject::MyUpdateGamestart()
 	// 初期化処理。終了後、そのままプレイ中状態に遷移
 	_gl_KeyControlObject->Init();
 	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
-	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
-	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP);
-	_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM1.mp3"), DX_PLAYTYPE_LOOP);
 	x = 0;
 	y = 0;
 
@@ -143,31 +139,69 @@ void mGameObject::MyUpdateGameplaying()
 	if (Player->Life == -1) {
 		_gl_mSoundObject->MyPlaySoundMem(_T("Sound/BGM2.mp3"), DX_PLAYTYPE_LOOP);
 		ChangeStatus(GAMEOVER);
+		return;
 	}
 
-	// 衝突判定を行う
-	// カテゴリを探すだけなので、実処理以外はそこまで重くない
-	// (イテレータの中身はポインタである)
+	bool isExistItem = false;
+	bool isExistRareItem = false;
+	// カテゴリに応じた特殊処理
+	//  PlayerObject ⇒ 衝突判定
+	//  ItemObject ⇒ 存在することを保存
 	for (auto PlayerItr = ObjectList.begin(); PlayerItr != ObjectList.end(); ++PlayerItr) {
 		if ((*PlayerItr)->ObjectDeleteFlag) continue;
-		// プレイヤーオブジェクトを見つけたら(1つのみ)
 		int ObjectLayer = (*PlayerItr)->Layer;
-		if (ObjectLayer == Layer_PlayerObject) {
+
+		// アイテムオブジェクト群は、プレイヤとの距離を比較し存在したことをメモ
+		if (ObjectLayer == Layer_Item) isExistItem = true;
+		if (ObjectLayer == Layer_RareItem) isExistRareItem = true;
+
+		// プレイヤーオブジェクトを見つけたら(1つのみ)
+		if ( ObjectLayer == Layer_PlayerObject ) {
 			// 弾オブジェクトとの衝突判定を行う
 			for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 				if ((*itr)->ObjectDeleteFlag) continue;
 
+				// 特定レイヤのオブジェクトと、PeculiarAcytionを行う
 				int TargetobjectLayer = (*itr)->Layer;
 				if (TargetobjectLayer == Layer_EnemyBullet ||
-					TargetobjectLayer == Layer_PlayerDecorationObject) {
+					TargetobjectLayer == Layer_PlayerDecorationObject ||
+					TargetobjectLayer == Layer_Item ||
+					TargetobjectLayer == Layer_RareItem ) {
 					// ・敵弾管理オブジェクト。
 					//  　―敵弾管理オブジェクトの、固有処理は、保有バレットとの当たり判定)
 					// ・デコレートオブジェクト
 					//  　―座標を合わせるだけ)
+					// ・アイテム系
+					// 　 ―衝突判定を行う
 					(*itr)->MyPeculiarAction((*PlayerItr));
 				}
 			}
 		}
+	}
+
+	// アイテムオブジェクトが消滅している場合
+	if (!isExistItem) {
+		int ItemX = GetRand(MoveableWidth/2) + (MoveableWidth / 2) * isItemRight;
+		int ItemY = GetRand( MoveableAreaButtom / 3) + MoveableAreaButtom * 2 / 3;
+		ItemObject* tmp = new ItemObject(_T("Image/Item.png"), ItemX, ItemY, Layer_Item);
+		tmp->Mode = ADD;
+		tmp->Transparency = 180;
+		AddObject( tmp );
+		ObjectList.sort(&comp);
+
+		isItemRight = (++isItemRight) % 2;
+	}
+
+	if (!isExistRareItem) {
+		int ItemX = GetRand( ( MoveableWidth - 48) / 2) + 24 + (MoveableWidth / 2) * isRareItemRight;
+		int ItemY = GetRand( MoveableAreaButtom / 3 ) + MoveableAreaUpper + 42;
+		ItemObject* tmp = new ItemObject(_T("Image/RareItem.png"), ItemX, ItemY, Layer_RareItem);
+		tmp->Mode = ADD;
+		tmp->Transparency = 180;
+		AddObject(tmp);
+		ObjectList.sort(&comp);
+
+		isRareItemRight = (++isRareItemRight) % 2;
 	}
 }
 

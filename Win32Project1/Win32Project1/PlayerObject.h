@@ -39,6 +39,9 @@ public:
 	double tmp;
 	bool ShowScore;
 
+	int GetItemNum; // 拾ったアイテムの個数
+	int GetRareItemNum;  // 拾ったハイスコアアイテムの個数
+
 	BaseObject* EnemyBullet;
 };
 
