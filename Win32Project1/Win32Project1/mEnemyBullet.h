@@ -15,6 +15,6 @@ public:
 
 	// 弾幕に与えるスコア	
 	int SetGrazeScore = 1; // グレイズスコア。得点アイテム取得数から算出。
-	int SetEraseScore = 1; // ボムスコア。レベルから算出。
+	double SetEraseScore = 1.0 / 60; // ボムスコア。レベルから算出。
 };
 
