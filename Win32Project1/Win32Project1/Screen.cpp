@@ -54,6 +54,7 @@ void Screen::ShowLife() {
 }
 
 void Screen::ShowScore() {
-	DrawFormatStringToHandle(600, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)(TimeScore + GrazeScore + EraseScore)); // スコア
+	ScoreLength = GetDrawFormatStringWidthToHandle(ScoreFont,_T("%d"),(int)(TimeScore + GrazeScore + EraseScore));
+	DrawFormatStringToHandle(960 - ScoreLength, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)(TimeScore + GrazeScore + EraseScore)); // スコア
 	//DrawFormatString(600, 470, GetColor(0, 0, 0), _T("ボム:%d"), (int)PlayerObj->tmp); // ハイスコア
 }

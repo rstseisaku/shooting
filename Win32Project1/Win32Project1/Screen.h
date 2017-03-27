@@ -16,6 +16,7 @@ public:
 
 	PlayerObject* PlayerObj;
 	int ScoreFont;
+	int ScoreLength;
 	double TimeScore;
 	double GrazeScore;
 	int HighScore;
