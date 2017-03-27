@@ -10,11 +10,15 @@ public:
 	void MyUpdate();
 	void MyDraw();
 	void MyPeculiarAction(BaseObject * obj);
+	void ShowLife();
+	void ShowScore();
+
 
 	PlayerObject* PlayerObj;
 	int ScoreFont;
 	double TimeScore;
 	double GrazeScore;
 	int HighScore;
+	int LifeGraphic;
 };
 

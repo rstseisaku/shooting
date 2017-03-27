@@ -14,6 +14,7 @@ Screen::Screen(const TCHAR * FileName, int _CenterX, int _CenterY, PlayerObject*
 	PlayerObj = Player;
 
 	ScoreFont = CreateFontToHandle(NULL, 64, 3);
+	LifeGraphic = _gl_mGraphicObject->MyLoadGraphic(_T("Image/life.png"));
 
 	Layer = Layer_Screen;
 }
@@ -31,12 +32,28 @@ void Screen::MyUpdate()
 
 void Screen::MyDraw() {
 	DrawGraph((int)GetDrawX(), (int)GetDrawY(), GraphicHandle, true);
-	if (DEBUG)
-		DrawFormatString(600, 200, GetColor(0, 255, 255), _T("(Screen)Life %d"), PlayerObj->Life); // 文字を描画する
-		DrawFormatStringToHandle(600, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)(TimeScore + GrazeScore + EraseScore)); // スコア
+
+	ShowLife();
+	ShowScore();
+	//if (DEBUG)
+		//DrawFormatString(600, 200, GetColor(0, 255, 255), _T("(Screen)Life %d"), PlayerObj->Life); // 文字を描画する
+		//DrawFormatStringToHandle(600, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)(TimeScore + GrazeScore + EraseScore)); // スコア
 		//DrawFormatString(600, 470, GetColor(0, 0, 0), _T("ボム:%d"), (int)PlayerObj->tmp); // ハイスコア
 }
 
 void Screen::MyPeculiarAction(BaseObject * obj) {
 	// 特にやることはない
+}
+
+void Screen::ShowLife() {
+	SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	for (int i = 0; i < PlayerObj->Life; i++) {
+		DrawGraph(600 + i * 40, 200, LifeGraphic, true);
+	}
+	SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+}
+
+void Screen::ShowScore() {
+	DrawFormatStringToHandle(600, 400, GetColor(0, 0, 0), ScoreFont, _T("%d"), (int)(TimeScore + GrazeScore + EraseScore)); // スコア
+	//DrawFormatString(600, 470, GetColor(0, 0, 0), _T("ボム:%d"), (int)PlayerObj->tmp); // ハイスコア
 }
