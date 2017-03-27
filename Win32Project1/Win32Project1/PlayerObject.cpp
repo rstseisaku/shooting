@@ -14,6 +14,8 @@ PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, Ba
 	EnemyBullet = EnemyBulletObject;
 	//弾消し用の画像
 	GrazeHandle = _gl_mGraphicObject->MyLoadGraphic(_T("Image/graze.png"));
+	//スコア表示用フォント
+	ScoreFont = CreateFontToHandle(NULL, 24, 3);
 }
 
 PlayerObject::~PlayerObject()
@@ -91,7 +93,8 @@ void PlayerObject::MyUpdate()
 		}
 	}
 	if (ShowScore == TRUE){
-		DrawFormatString(BomX, BomY - 40, GetColor(255, 255, 255), _T("+%d"), (int)tmp);
+		DrawFormatStringToHandle(BomX, BomY - 40, GetColor(75 + (120 - Counter) * 3 / 2, 135 + (120 - Counter), 195 + (120 - Counter) / 2), ScoreFont, _T("+%d"), (int)tmp);
+//		DrawFormatString(BomX, BomY - 40, GetColor(75+(120-Counter)*3/2, 135+(120 - Counter), 195+ (120 - Counter)/2), _T("+%d"), (int)tmp);
 		if (Counter == 0)
 			ShowScore = FALSE;
 		Counter--;
@@ -179,7 +182,7 @@ void PlayerObject::CloseBom() {
 	EraseScore += tmp;
 	//ボムで得たスコアを表示
 	ShowScore = TRUE;
-	Counter = 60;
+	Counter = 120;
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {
