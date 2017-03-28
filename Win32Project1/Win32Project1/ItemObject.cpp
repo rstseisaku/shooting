@@ -39,7 +39,23 @@ void ItemObject::MyPeculiarAction(BaseObject * obj)
 		// アイテム獲得処理
 		if (Layer == Layer_Item) ((PlayerObject*)obj)->GetItemNum++;
 		if (Layer == Layer_RareItem) ((PlayerObject*)obj)->GetRareItemNum++;
+		if (Layer == Layer_BomItem) ((PlayerObject*)obj)->BomSize += 50;
+
+
+		// アイテム取得エフェクト表示
 		_gl_mSoundObject->MyPlaySoundMem(_T("Sound/on11.wav"), DX_PLAYTYPE_BACK); // 取得音再生
+
+		AnimationObject *AnimationObjectTmp;
+		AnimationObjectTmp = new AnimationObject(
+			_T("Image/Animation3.png"),
+			10,
+			1,
+			((PlayerObject*)obj)->CenterX,
+			((PlayerObject*)obj)->CenterY);
+		AnimationObjectTmp->Mode = ADD;
+		AnimationObjectTmp->SetParameter(2, 0, 9); // アニメーション頻度・開始・終了をセット
+		((PlayerObject*)obj)->AddObject(AnimationObjectTmp);
+
 		ObjectDelete();
 	}
 }

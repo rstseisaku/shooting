@@ -5,7 +5,7 @@
 
 #pragma once
 
-#define DEBUG true
+#define DEBUG false
 #define NOSOUND false
 
 #include "targetver.h"
@@ -81,6 +81,7 @@
 #define Layer_Screen 21
 #define Layer_Item 2
 #define Layer_RareItem 3
+#define Layer_BomItem 4
 
 enum CompositeMode { NORMAL = DX_BLENDMODE_PMA_ALPHA, ADD = DX_BLENDMODE_PMA_ADD, SUB = DX_BLENDMODE_PMA_SUB };
 enum GameStatus { GAMESTART, GAMEPLAYING, GAMEOVER };

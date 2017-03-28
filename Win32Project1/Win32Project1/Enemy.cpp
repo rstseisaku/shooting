@@ -15,15 +15,17 @@ void Enemy::MyUpdate()
 		PlayerObjectInstance->GetItemNum + PlayerObjectInstance->GetRareItemNum * 3;
 	mEnemyBulletObject->SetEraseScore = mEnemyBulletObject->SetGrazeScore / 2;
 
+	// パターンが選択されていなければ、パターンを新しく選択する
 	if (Pattern == NOSELECTED) {
-		Pattern = GetRand( PatternNum - 1 ) + 1 ; // NOSELECTEDを選ばない様に
+		Pattern = GetRand( PatternNum - 1 ) + 1 ; // NOSELECTEDを選ばない
 		Count = 0;
 		val1 = 0;
-		Level = mEnemyObjectLevel;
-
-		// Pattern = GURUGURU2;
+		Level = mEnemyObjectLevel; // レベルは弾幕切り替え時に更新
+		return;
 	}
-	else if ( Pattern == GURUGURU ) {
+
+	// Patternに応じて、対応する関数を呼び出す
+	if ( Pattern == GURUGURU ) {
 		MyUpdateGuruguru();
 	}
 	else if (Pattern == KOUSA) {
@@ -78,6 +80,7 @@ void Enemy::MyUpdateGuruguru() {
 		bp->vAngle = 8;
 		bp->Speed = 70.0;
 		bp->N = (Level + 1) * 2;
+		if ( bp->N > 21) bp->N = 21;
 		bp->Span = 360.0 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 
@@ -89,6 +92,7 @@ void Enemy::MyUpdateGuruguru() {
 		bp->Angle += bp->Span / 3;
 		mEnemyBulletObject->MakeBullet(bp);
 
+		if (Level < 3) return;
 		bp->Speed = 240.0;
 		bp->Angle += bp->Span / 3;
 		mEnemyBulletObject->MakeBullet(bp);
@@ -110,6 +114,7 @@ void Enemy::MyUpdateGuruguru() {
 		bp->vAngle = -8;
 		bp->Speed = 70.0;
 		bp->N = (Level + 1) * 2;
+		if (bp->N > 21) bp->N = 21;
 		bp->Span = 360.0 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 
@@ -121,6 +126,7 @@ void Enemy::MyUpdateGuruguru() {
 		bp->Angle += bp->Span / 3;
 		mEnemyBulletObject->MakeBullet(bp);
 
+		if (Level < 3) return;
 		bp->Speed = 240.0;
 		bp->Angle += bp->Span / 3;
 		mEnemyBulletObject->MakeBullet(bp);
@@ -135,9 +141,9 @@ void Enemy::MyUpdateJikinerai() {
 	Count++;
 	if (Count == 510) Pattern = NOSELECTED;
 
-	int frequency = 30;
-	frequency -= Level * 2;
-	if (frequency < 10) frequency = 10;
+	int frequency = 20;
+	frequency -= Level * 3;
+	if (frequency < 4 ) frequency = 4;
 	if (Count >= 90 && Count <= 450 && Count % frequency == 0) {
 		BulletPattern *bp = new BulletPattern(  );
 		bp->X = CenterX;
@@ -149,7 +155,7 @@ void Enemy::MyUpdateJikinerai() {
 		bp->Angle = GetAngleToPlayer();
 		bp->N = (Level * 2) + 1;
 		if (bp->N >= 11) bp->N = 11;
-		bp->Span = (80.0 + Level * 18) / bp->N;
+		bp->Span = (80.0 + Level * 10) / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
 	}
 }
@@ -163,6 +169,7 @@ void Enemy::MyUpdateKousa() {
 		bp->X = CenterX;
 		bp->Y = CenterY;
 		bp->N = (Level + 1) * 4;
+		if (bp->N >= 24) bp->N = 24;
 		bp->Span = 360.0 / bp->N;
 		bp->CompositeModeParameter = NORMAL;
 		bp->Angle = GetAngleToPlayer();
@@ -187,6 +194,22 @@ void Enemy::MyUpdateKousa() {
 		mEnemyBulletObject->MakeBullet(bp);
 		bp->vAngle = -12;
 		mEnemyBulletObject->MakeBullet(bp);
+
+		if (bp->N == 24) {
+			bp->FileName = _T("Image/bullet4_blue.png");
+			bp->Speed = 80.0;
+			bp->vAngle = 6;
+			mEnemyBulletObject->MakeBullet(bp);
+			bp->vAngle = -6;
+			mEnemyBulletObject->MakeBullet(bp);
+
+			bp->FileName = _T("Image/bullet4_red.png");
+			bp->Speed = 130.0;
+			bp->vAngle = 12;
+			mEnemyBulletObject->MakeBullet(bp);
+			bp->vAngle = -12;
+			mEnemyBulletObject->MakeBullet(bp);
+		}
 	}
 }
 
@@ -194,7 +217,7 @@ void Enemy::MyUpdateIyagarase() {
 	Count++;
 	if (Count == 600) Pattern = NOSELECTED;
 
-	int frequency = 40;
+	int frequency = 56;
 	frequency -= Level * 2;
 	if (frequency < 10) frequency = 20;
 	if (Count >= 90 && Count <= 400 && Count % frequency == 0) {
@@ -209,7 +232,7 @@ void Enemy::MyUpdateIyagarase() {
 		bp->FileName = _T("Image/bullet5_orange.png");
 		bp->Speed = 160.0 - 7 * Level;
 		if (bp->Speed <= 100) bp->Speed = 100;
-		bp->N = 4 + Level * 2;
+		bp->N = 2 + ( Level / 2 ) * 2;
 		if (bp->N >= 12) bp->N = 12;
 		bp->Span = 180 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
@@ -217,7 +240,7 @@ void Enemy::MyUpdateIyagarase() {
 		bp->FileName = _T("Image/bullet5_white.png");
 		bp->Speed = 210.0 + 7 * Level;
 		if (bp->Speed >= 320) bp->Speed = 320;
-		bp->N = 5 + Level * 2;
+		bp->N = 3 + (Level / 2) * 2;
 		if (bp->N >= 12) bp->N = 13;
 		bp->Span = 180 / bp->N;
 		mEnemyBulletObject->MakeBullet(bp);
@@ -235,16 +258,23 @@ void Enemy::MyUpdateJiyurakka() {
 		int Way = 20 + Level * 4;
 		if (Way >= 56) Way = 56;
 		double vx, vy, vvx, vvy;
+		TCHAR* str;
 		vvx = 0;
 		for (int i = 0; i < Way; i++) {
 			vx = GetRand(10)*0.4 - 2.00;
 			vy = GetRand(10)*0.1 - 5.5;
 			vvy = GetRand(10)*0.01 + 0.04;
-			Bullet* tmp = new Bullet(
-				_T("Image/bullet4_blue.png"),
+
+			int tmp = GetRand(3);
+			if( tmp == 0 )str = _T("Image/bullet4_blue.png");
+			else if (tmp == 0)  str = _T("Image/bullet4_yellow.png");
+			else str = _T("Image/bullet4_green.png");
+
+			Bullet* bul = new Bullet(
+				str,
 				CenterX, CenterY,
 				vx, vy, vvx, vvy);
-			mEnemyBulletObject->AddBullet(tmp);
+			mEnemyBulletObject->AddBullet(bul);
 		}
 	}
 }
@@ -253,12 +283,13 @@ void Enemy::MyUpdateGuruguru2() {
 	Count++;
 	if (Count == 600) Pattern = NOSELECTED;
 	
-	int tmp = 7 - Level;
-	if ( tmp <= 4) tmp = 4;
+	int tmp = 9 - Level;
+	if ( tmp <= 3) tmp = 3;
 	int tmp2 = Count % tmp;
 	if ( tmp2 == 0 && Count <= 360 && Count >= 60) {
-		if (Level <= 2) { Angle += val1; }
-		val1 += 1.6;
+		if (Level <= 2) { val1 += 1.6; }
+		Angle += val1;
+		
 
 		BulletPattern *bp = new BulletPattern();
 		bp->FileName = _T("Image/bullet6_white.png");

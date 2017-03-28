@@ -73,7 +73,7 @@ void mGameObject::SetObject()
 		AddObject(new mEnemy(mEnemyBulletObject, Player)); // 敵管理オブジェクト。敵弾管理オブジェクトを一緒に渡す。
 		AddObject(new PlayerDecorationObject(_T("Image/PDObject.png"))); // プレイヤーの当たり判定を表示
 		AddObject(Player);
-		//AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト
+		AddObject(new BackGround(_T("Image/BackGround1.png"), 288, 576)); // 背景オブジェクト
 		mScreen = new Screen(_T("Image/Screen.png"), 512, 288, Player);
 		AddObject(mScreen);
 		ObjectList.sort(&comp);
@@ -143,6 +143,7 @@ void mGameObject::MyUpdateGameplaying()
 	}
 
 	bool isExistItem = false;
+	bool isExistBomItem = false;
 	bool isExistRareItem = false;
 	// カテゴリに応じた特殊処理
 	//  PlayerObject ⇒ 衝突判定
@@ -154,6 +155,7 @@ void mGameObject::MyUpdateGameplaying()
 		// アイテムオブジェクト群は、プレイヤとの距離を比較し存在したことをメモ
 		if (ObjectLayer == Layer_Item) isExistItem = true;
 		if (ObjectLayer == Layer_RareItem) isExistRareItem = true;
+		if (ObjectLayer == Layer_BomItem) isExistBomItem = true;
 
 		// プレイヤーオブジェクトを見つけたら(1つのみ)
 		if ( ObjectLayer == Layer_PlayerObject ) {
@@ -166,6 +168,7 @@ void mGameObject::MyUpdateGameplaying()
 				if (TargetobjectLayer == Layer_EnemyBullet ||
 					TargetobjectLayer == Layer_PlayerDecorationObject ||
 					TargetobjectLayer == Layer_Item ||
+					TargetobjectLayer == Layer_BomItem ||
 					TargetobjectLayer == Layer_RareItem ) {
 					// ・敵弾管理オブジェクト。
 					//  　―敵弾管理オブジェクトの、固有処理は、保有バレットとの当たり判定)
@@ -180,7 +183,7 @@ void mGameObject::MyUpdateGameplaying()
 	}
 
 	// アイテムオブジェクトが消滅している場合
-	if (!isExistItem) {
+	if (!isExistItem && !isExistBomItem) {
 		int ItemX = GetRand(MoveableWidth/2) + (MoveableWidth / 2) * isItemRight;
 		int ItemY = GetRand( MoveableAreaButtom / 3) + MoveableAreaButtom * 2 / 3;
 		ItemObject* tmp = new ItemObject(_T("Image/Item.png"), ItemX, ItemY, Layer_Item);

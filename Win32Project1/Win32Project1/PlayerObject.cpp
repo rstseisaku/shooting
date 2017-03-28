@@ -16,6 +16,9 @@ PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, Ba
 	GrazeHandle = _gl_mGraphicObject->MyLoadGraphic(_T("Image/graze.png"));
 	//スコア表示用フォント
 	ScoreFont = CreateFontToHandle(NULL, 24, 3);
+
+	// ボム準備音未再生状態に
+	BomPrepareSound = false;
 }
 
 PlayerObject::~PlayerObject()
@@ -92,13 +95,6 @@ void PlayerObject::MyUpdate()
 			CloseBom();
 		}
 	}
-	if (ShowScore == TRUE){
-		DrawFormatStringToHandle(BomX, BomY - 40, GetColor(75 + (120 - Counter) * 3 / 2, 135 + (120 - Counter), 195 + (120 - Counter) / 2), ScoreFont, _T("+%d"), (int)tmp);
-//		DrawFormatString(BomX, BomY - 40, GetColor(75+(120-Counter)*3/2, 135+(120 - Counter), 195+ (120 - Counter)/2), _T("+%d"), (int)tmp);
-		if (Counter == 0)
-			ShowScore = FALSE;
-		Counter--;
-	}
 }
 
 void PlayerObject::MyDraw()
@@ -133,16 +129,29 @@ void PlayerObject::MyDraw()
 		}
 		//Sizeが100以上の時は濃く表示する
 		else if (BomSize >= 100) {
+			if (!BomPrepareSound) {
+				_gl_mSoundObject->MyPlaySoundMem(_T("Sound/pi48.wav"), DX_PLAYTYPE_BACK); // ボム準備音の再生
+				BomPrepareSound = true;
+			}
+
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 			DrawRotaGraph(CenterX, CenterY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 		}
 	}
-	//ボムった時はその場に画像を置いていく
+	// ボムった時はその場に画像を置いていく
 	else if (UsingBom == TRUE) {
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
 		DrawRotaGraph(BomX, BomY, 2.0 * BomSize / 450, 0.0, GrazeHandle, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+	}
+	// ボムでのスコア加算値を表示
+	if (ShowScore == TRUE) {
+		DrawFormatStringToHandle(BomX, BomY - 40, GetColor(75 + (120 - Counter) * 3 / 2, 135 + (120 - Counter), 195 + (120 - Counter) / 2), ScoreFont, _T("+%d"), (int)tmp);
+		// DrawFormatString(BomX, BomY - 40, GetColor(75+(120-Counter)*3/2, 135+(120 - Counter), 195+ (120 - Counter)/2), _T("+%d"), (int)tmp);
+		if (Counter == 0)
+			ShowScore = FALSE;
+		Counter--;
 	}
 }
 
@@ -157,6 +166,12 @@ void PlayerObject::ActivateBom() {
 	Counter = 60;
 	BomX = CenterX;
 	BomY = CenterY;
+	InvincibleTime = 90;
+
+	// ボム準備音未再生状態に
+	BomPrepareSound = false;
+
+
 
 	// ボムエフェクトの表示
 	AnimationObject *AnimationObjectTmp;

@@ -39,6 +39,7 @@ public:
 	double tmp;
 	bool ShowScore;
 	int ScoreFont;
+	bool BomPrepareSound;
 
 	int GetItemNum; // 拾ったアイテムの個数
 	int GetRareItemNum;  // 拾ったハイスコアアイテムの個数
