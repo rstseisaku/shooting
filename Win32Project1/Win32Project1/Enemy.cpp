@@ -288,6 +288,7 @@ void Enemy::MyUpdateGuruguru2() {
 	int tmp2 = Count % tmp;
 	if ( tmp2 == 0 && Count <= 360 && Count >= 60) {
 		if (Level <= 2) { val1 += 1.6; }
+		else  val1++;
 		Angle += val1;
 		
 
