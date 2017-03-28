@@ -38,6 +38,7 @@ public:
 	int BomY;
 	double tmp;
 	bool ShowScore;
+	int ScoreFont;
 
 	int GetItemNum; // 拾ったアイテムの個数
 	int GetRareItemNum;  // 拾ったハイスコアアイテムの個数
