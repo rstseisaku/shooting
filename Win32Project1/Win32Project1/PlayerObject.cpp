@@ -89,9 +89,9 @@ void PlayerObject::MyUpdate()
 				tmp += ((BaseObject2D*)(*itr))->EraseScore; //ポイント加算
 			}
 		}
-		Counter--;	//フレーム進める
+		BomCounter--;	//フレーム進める
 		//60フレーム経ったらボムを終了
-		if (Counter == 0) {
+		if (BomCounter == 0) {
 			CloseBom();
 		}
 	}
@@ -147,11 +147,12 @@ void PlayerObject::MyDraw()
 	}
 	// ボムでのスコア加算値を表示
 	if (ShowScore == TRUE) {
-		DrawFormatStringToHandle(BomX, BomY - 40, GetColor(75 + (120 - Counter) * 3 / 2, 135 + (120 - Counter), 195 + (120 - Counter) / 2), ScoreFont, _T("+%d"), (int)tmp);
+		DrawFormatStringToHandle(BomX, BomY - 40, GetColor(75 + (120 - ScoreCounter) * 3 / 2, 135 + (120 - ScoreCounter), 195 + (120 - ScoreCounter) / 2), ScoreFont, _T("+%d"), (int)tmp);
 		// DrawFormatString(BomX, BomY - 40, GetColor(75+(120-Counter)*3/2, 135+(120 - Counter), 195+ (120 - Counter)/2), _T("+%d"), (int)tmp);
-		if (Counter == 0)
+		if (ScoreCounter == 0) {
 			ShowScore = FALSE;
-		Counter--;
+		}
+		ScoreCounter--;
 	}
 }
 
@@ -163,7 +164,7 @@ void PlayerObject::ActivateBom() {
 	// 範囲内の弾幕を消す
 	UsingBom = TRUE;
 	tmp = 0.0;
-	Counter = 60;
+	BomCounter = 60;
 	BomX = CenterX;
 	BomY = CenterY;
 	InvincibleTime = 90;
@@ -197,7 +198,7 @@ void PlayerObject::CloseBom() {
 	EraseScore += tmp;
 	//ボムで得たスコアを表示
 	ShowScore = TRUE;
-	Counter = 120;
+	ScoreCounter = 120;
 }
 
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {

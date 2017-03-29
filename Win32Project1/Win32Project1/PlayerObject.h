@@ -33,9 +33,10 @@ public:
 	int GrazeHandle;
 	int EnemyLevel;
 	bool UsingBom = FALSE;
-	int Counter;
+	int BomCounter;
 	int BomX;
 	int BomY;
+	int ScoreCounter;
 	double tmp;
 	bool ShowScore;
 	int ScoreFont;
