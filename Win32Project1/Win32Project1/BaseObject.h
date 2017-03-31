@@ -14,6 +14,8 @@ public:
 
 	void ObjectDelete();
 
+	void MyDestructor();
+
 	double GetCenterX();
 	double GetCenterY();
 	double GetDrawX();

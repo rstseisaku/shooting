@@ -61,3 +61,32 @@ void mGraphic::MyLoadDivGraphic(const TCHAR* FileName, int splitX, int splitY, i
 		}
 	}
 }
+
+void mGraphic::MyInitGraph()
+{
+	// 	読みこんだグラフィックデータをすべて削除
+	InitGraph();
+
+	// 画像管理メンバの初期化
+	GraphicHandleObject.clear();
+	DivGraphicHandleObject.clear();
+	DivImgCounter = 0;
+}
+
+void mGraphic::MyDeleteGraph(const TCHAR* FileName) 
+{
+	int res = (int)GraphicHandleObject.count(FileName);
+	if (res == 0) {	return; } // 未ロードの画像であれば処理を終了
+	else 
+	{
+		// メモリ開放
+		int GraphicHandle;
+		GraphicHandle = GraphicHandleObject[FileName];
+		DeleteGraph( GraphicHandle );
+
+		//  画像管理メンバから要素を取り除く
+		auto itr = GraphicHandleObject.find(FileName);
+		if (itr != GraphicHandleObject.end())         // キーの要素が存在している場合
+			GraphicHandleObject.erase(itr);
+	}
+}

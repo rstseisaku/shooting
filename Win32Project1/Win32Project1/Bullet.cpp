@@ -41,6 +41,7 @@ Bullet::Bullet(const TCHAR * FileName, int _CenterX, int _CenterY,
 
 Bullet::~Bullet()
 {
+	MyDestructor();
 }
 
 void Bullet::MyUpdate()

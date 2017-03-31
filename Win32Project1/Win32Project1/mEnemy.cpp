@@ -21,6 +21,7 @@ mEnemy::mEnemy(BaseObject* _mEnemyBulletObject, BaseObject*  _PlayerObject) {
 
 mEnemy::~mEnemy()
 {
+	MyDestructor();
 }
 
 void mEnemy::MyUpdate()

@@ -12,6 +12,7 @@ ItemObject::ItemObject(const TCHAR * FileName, int _CenterX, int _CenterY, int _
 
 ItemObject::~ItemObject()
 {
+	MyDestructor();
 }
 
 void ItemObject::MyUpdate()

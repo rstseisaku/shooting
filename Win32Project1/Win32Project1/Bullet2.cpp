@@ -41,6 +41,7 @@ Bullet2::Bullet2(const TCHAR * FileName, int _x, int _y, int _Angle, int _Speed,
 
 Bullet2::~Bullet2()
 {
+	MyDestructor();
 }
 
 void Bullet2::MyUpdate() {

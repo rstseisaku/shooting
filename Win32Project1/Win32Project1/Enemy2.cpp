@@ -41,4 +41,5 @@ void Enemy2::MyPeculiarAction(BaseObject* obj)
 
 Enemy2::~Enemy2()
 {
+	MyDestructor();
 }

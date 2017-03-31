@@ -14,6 +14,7 @@ PlayerDecorationObject::PlayerDecorationObject()
 
 PlayerDecorationObject::~PlayerDecorationObject()
 {
+	MyDestructor();
 }
 
 // 「全てのオブジェクトが画像を持つ」と設計すれば、

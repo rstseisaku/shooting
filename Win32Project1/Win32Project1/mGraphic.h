@@ -8,6 +8,9 @@ public:
 	~mGraphic();
 	int MyLoadGraphic(const TCHAR*);
 	void MyLoadDivGraphic(const TCHAR*,int splitX,int splitY,int GraphicHanlde[100]);
+	void MyInitGraph();
+
+	void MyDeleteGraph(const TCHAR * FileName);
 
 	// Šù‚É‚ ‚é‰æ‘œ‚Å‚ ‚ê‚ÎCint ‚ğ•Ô‚·
 	std::map<const TCHAR*, int> GraphicHandleObject;

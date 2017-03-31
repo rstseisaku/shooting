@@ -23,8 +23,8 @@ PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, Ba
 
 PlayerObject::~PlayerObject()
 {
+	MyDestructor();
 }
-
 
 void PlayerObject::InitCommon(const TCHAR *FileName) {
 	int splitX = 3;
