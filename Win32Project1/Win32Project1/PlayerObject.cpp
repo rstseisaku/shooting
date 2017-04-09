@@ -2,19 +2,22 @@
 
 PlayerObject::PlayerObject(const TCHAR *FileName)
 {
-	InitCommon(FileName);
+	// 初期化処理
+	InitCommon(FileName); // ファイル名からグラフィックハンドル・サイズを取得
 }
 
 PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, BaseObject* EnemyBulletObject)
 {
-	InitCommon(FileName);
+	// 初期化処理
+	InitCommon(FileName); // ファイル名からグラフィックハンドル・サイズを取得(分割画像読込用)
 	CenterX = _CenterX;
 	CenterY = _CenterY;
 
+	// 敵弾管理オブジェクトへのアドレス。(ボム時の弾消に利用)
 	EnemyBullet = EnemyBulletObject;
 	//弾消し用の画像
 	GrazeHandle = _gl_mGraphicObject->MyLoadGraphic(_T("Image/graze.png"));
-	//スコア表示用フォント
+	//スコア表示用フォント(ボム時)
 	ScoreFont = CreateFontToHandle(NULL, 24, 3);
 
 	// ボム準備音未再生状態に
@@ -23,22 +26,26 @@ PlayerObject::PlayerObject(const TCHAR *FileName, int _CenterX, int _CenterY, Ba
 
 PlayerObject::~PlayerObject()
 {
+	// 子オブジェクト消去
 	MyDestructor();
 }
 
 void PlayerObject::InitCommon(const TCHAR *FileName) {
-	int splitX = 3;
-	int splitY = 4;
-	_gl_mGraphicObject->MyLoadDivGraphic(FileName, splitX, splitY, GraphicHandle);
-	GraphicPattern = 10;
+	// 画像分割読み込み
+	int splitX = 3; // 横分割
+	int splitY = 4; // 縦分割
+	_gl_mGraphicObject->MyLoadDivGraphic(FileName, splitX, splitY, GraphicHandle); // 画像分割読込
+	GraphicPattern = 10; // 画像表示パターン設定
+	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY); // グラフィックサイズの設定
 
-	GetGraphSize(GraphicHandle[0], &WidthX, &HeightY);
-	Life = 3;
-	InvincibleTime = 0;
-	BomSize = 0.0;
-	GrazeScore = 0.0;
-	EraseScore = 0.0;
+	// プレイヤ情報の初期化
+	Life = 3; // 残機
+	InvincibleTime = 0; // 無敵タイム
+	BomSize = 0.0; // ボムの大きさ
+	GrazeScore = 0.0; // グレイズにより稼いだスコア
+	EraseScore = 0.0; // ボムにより稼いだスコア
 
+	// レイヤ設定
 	Layer = Layer_PlayerObject;
 }
 
@@ -52,8 +59,12 @@ void PlayerObject::MyUpdate()
 	if (_gl_KeyControlObject->Key[KEY_INPUT_DOWN] >= 1) CenterY += Speed;
 	if (_gl_KeyControlObject->Key[KEY_INPUT_UP] >= 1) CenterY -= Speed;
 
-	//ボムる
-	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) ActivateBom();
+	//ボムの発動
+	if (_gl_KeyControlObject->Key[KEY_INPUT_Z] == -1 && BomSize > 100) {
+		ActivateBom();
+	}
+
+	// ボムサイズの加算
 	BomSize += 100.0 / 60 / 30;
 	if (BomSize > MaxBomSize)
 		BomSize = MaxBomSize;
@@ -64,18 +75,12 @@ void PlayerObject::MyUpdate()
 	if (CenterX >= 540)  CenterX = 540;
 	if (CenterY >= WindowSizeY - 35)  CenterY = WindowSizeY - 35;
 
-	// 自機をアニメーションさせる
+	// アニメーション( アニメーションしない画像を利用しているので特に意味はなし )
 	if (++AnimationCounter == AnimationInterval) {
 		if (++AnimationCounter == 12) {
 			AnimationCounter = 10;
 		}
 		AnimationCounter = 0;
-	}
-
-	// 子オブジェクトのMyUpdateを呼び出す
-	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
-		if ((*itr)->ObjectDeleteFlag) continue;
-		(*itr)->MyUpdate();
 	}
 
 	// ボムで弾を消す処理
@@ -94,6 +99,12 @@ void PlayerObject::MyUpdate()
 		if (BomCounter == 0) {
 			CloseBom();
 		}
+	}
+
+	// 子オブジェクトのMyUpdateを呼び出す
+	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
+		if ((*itr)->ObjectDeleteFlag) continue;
+		(*itr)->MyUpdate();
 	}
 }
 
@@ -119,8 +130,8 @@ void PlayerObject::MyDraw()
 		itr++;
 	}
 	
-	//ボムを使ってない場合
-	//Sizeが100未満の時は薄く表示する
+	// ボムを使ってない場合
+	// (Sizeが100未満の時は薄く表示する)
 	if (UsingBom == FALSE) {
 		if (BomSize < 100) {
 			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 50);
@@ -148,7 +159,6 @@ void PlayerObject::MyDraw()
 	// ボムでのスコア加算値を表示
 	if (ShowScore == TRUE) {
 		DrawFormatStringToHandle(BomX, BomY - 40, GetColor(75 + (120 - ScoreCounter) * 3 / 2, 135 + (120 - ScoreCounter), 195 + (120 - ScoreCounter) / 2), ScoreFont, _T("+%d"), (int)tmp);
-		// DrawFormatString(BomX, BomY - 40, GetColor(75+(120-Counter)*3/2, 135+(120 - Counter), 195+ (120 - Counter)/2), _T("+%d"), (int)tmp);
 		if (ScoreCounter == 0) {
 			ShowScore = FALSE;
 		}
@@ -172,8 +182,6 @@ void PlayerObject::ActivateBom() {
 	// ボム準備音未再生状態に
 	BomPrepareSound = false;
 
-
-
 	// ボムエフェクトの表示
 	AnimationObject *AnimationObjectTmp;
 	AnimationObjectTmp = new AnimationObject(
@@ -196,6 +204,7 @@ void PlayerObject::CloseBom() {
 	UsingBom = FALSE;
 	BomSize = 0.0;
 	EraseScore += tmp;
+
 	//ボムで得たスコアを表示
 	ShowScore = TRUE;
 	ScoreCounter = 120;
@@ -204,8 +213,9 @@ void PlayerObject::CloseBom() {
 int PlayerObject::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* Elp) {
 	// Xのサイズを判定として利用する
 	double ElpSizeX = BomSize; // 大きさ
-	double ElpSizeY = BomSize; // 
-												   // 点に楕円→真円変換行列を適用(Y方向へ拡大する)
+	double ElpSizeY = BomSize; // 大きさ
+
+	// 点に楕円→真円変換行列を適用(Y方向へ拡大する)
 	double Ofs_x = PlayerX - Elp->CenterX;
 	double Ofs_y = PlayerY - Elp->CenterY;
 	double After_x = Ofs_x*cos(Elp->Angle) + Ofs_y*sin(Elp->Angle);
