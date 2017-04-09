@@ -21,6 +21,7 @@ Screen::Screen(const TCHAR * FileName, int _CenterX, int _CenterY, PlayerObject*
 
 Screen::~Screen()
 {
+	MyDestructor();
 }
 
 void Screen::MyUpdate()

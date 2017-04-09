@@ -1,28 +1,42 @@
 #include "stdafx.h"
 
+
+/*
+* 敵弾を管理するためのクラス
+* プレイヤとのあたり判定処理もここで行う
+*/
 mEnemyBullet::mEnemyBullet()
 {
+	// レイヤを設定するだけ
 	Layer = Layer_EnemyBullet;
 }
 
 void mEnemyBullet::MyUpdate()
 {
+	// 消去フラグを立てる
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
 		(*itr)->MyUpdate();
 	}
-
-
 }
 
+// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う
 void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
-	// プレイヤーオブジェクトを受け取り、当たり判定の処理を行う
+	// 受け取るオブジェクトがプレイヤオブジェクトか確認
+	if (PlayerObj->Layer != Layer_PlayerObject) return;
+
+	// 受け取ったプレイヤオブジェクトから値を取得
 	double PlayerObjectCenterX = PlayerObj->CenterX;
 	double PlayerObjectCenterY = PlayerObj->CenterY;
 
+	// 管理している弾オブジェクトと当たり判定を行う
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end(); ++itr) {
 		if ((*itr)->ObjectDeleteFlag) continue;
+
+		// 楕円と点とのあたり判定
 		int Hit = ColEllipsPoint(PlayerObjectCenterX, PlayerObjectCenterY, (BaseObject2D*)(*itr));
+
+		// Hit = 1 なら、被弾処理
 		if ( Hit == 1 && (((PlayerObject *)PlayerObj)->InvincibleTime == 0) ) {
 			(*itr)->ObjectDelete(); // 衝突相手の弾を消す
 			((PlayerObject *)PlayerObj)->Life--; // 残機を減らす
@@ -41,18 +55,18 @@ void mEnemyBullet::MyPeculiarAction(BaseObject * PlayerObj) {
 
 			_gl_mSoundObject->MyPlaySoundMem( _T("Sound/bom18.wav"), DX_PLAYTYPE_BACK ); // 被弾音再生
 			break; // 同フレームで複数の弾に当たらない
-		} else if (Hit >= 2) {
+		} else if (Hit >= 2) { 	   // Hit = 2 なら、グレイズ処理
 			((BaseObject2D *)(*itr))->GrazeFlag = true;
 			_gl_mSoundObject->MyPlaySoundMem(_T("Sound/hit27.wav"), DX_PLAYTYPE_BACK); // グレイズ音再生
-			((PlayerObject *)PlayerObj)->BomSize += 5.0;
-			((PlayerObject *)PlayerObj)->GrazeScore += ((BaseObject2D *)(*itr))->GrazeScore;
+			((PlayerObject *)PlayerObj)->BomSize += 5.0; // ボムを少し大きくする
+			((PlayerObject *)PlayerObj)->GrazeScore += ((BaseObject2D *)(*itr))->GrazeScore; // スコア加算
 		}
 	}
 }
 
-// 持っている弾幕を表示
 void mEnemyBullet::MyDraw()
 {
+	// 持っている弾幕を表示
 	for (auto itr = ObjectList.begin(); itr != ObjectList.end();  ) {
 		if ((*itr)->ObjectDeleteFlag) {
 			delete((*itr));
@@ -102,6 +116,7 @@ void mEnemyBullet::AddBullet(BaseObject * obj)
 
 mEnemyBullet::~mEnemyBullet()
 {
+	MyDestructor();
 }
 
 // 楕円と点とのあたり判定処理
