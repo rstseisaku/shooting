@@ -59,16 +59,16 @@ void mGraphic::MyLoadDivGraphic(const TCHAR* FileName, int splitX, int splitY, i
 			ScreenFlip();
 			WaitKey();
 		}
-		DivGraphicHandleObject[FileNameSplitId] = DivImgCounter;
+		DivGraphicHandleObject[FileNameSplitId] = DivImgCounter; // 何番目の配列の値を参照するか
 		for (int i = 0; i < 100; i++) {
-			GraphicHandle[i] = DivImg[DivImgCounter][i]; 
+			GraphicHandle[i] = DivImg[DivImgCounter][i];  // 対応位置の配列の中身を返す
 		}
 		DivImgCounter++;
 	} else {
-		// ロード済画像であれば、グラフィックハンドルを使いまわす
-		int tmp = DivGraphicHandleObject[FileNameSplitId];
+		// ロード済画像であれば、グラフィックハンドルを使いまわす		
+		int tmp = DivGraphicHandleObject[FileNameSplitId]; // 何番目の配列の値を参照するか
 		for (int i = 0; i < 100; i++) {
-			GraphicHandle[i] = DivImg[tmp][i];
+			GraphicHandle[i] = DivImg[tmp][i]; // 対応位置の配列の中身を返す
 		}
 	}
 }

@@ -8,27 +8,30 @@ Screen::Screen()
 
 Screen::Screen(const TCHAR * FileName, int _CenterX, int _CenterY, PlayerObject* Player)
 {
-	InitCommon(FileName);
+	// 初期化処理
+	InitCommon(FileName); // ファイル名からグラフィックハンドル・サイズを取得
 	CenterX = _CenterX;
 	CenterY = _CenterY;
-	PlayerObj = Player;
+	PlayerObj = Player; // プレイヤーオブジェクトのインスタンス保持
 
-	ScoreFont = CreateFontToHandle(NULL, 64, 3);
-	LifeGraphic = _gl_mGraphicObject->MyLoadGraphic(_T("Image/life.png"));
+	ScoreFont = CreateFontToHandle(NULL, 64, 3); // スコアフォントの設定ハンドルの取得
+	LifeGraphic = _gl_mGraphicObject->MyLoadGraphic(_T("Image/life.png")); // ライフ画像読み込み
 
-	Layer = Layer_Screen;
+	Layer = Layer_Screen; // レイヤ設定
 }
 
 Screen::~Screen()
 {
+	// 子オブジェクトの消去
 	MyDestructor();
 }
 
 void Screen::MyUpdate()
 {
-	TimeScore += 1.0 / 60;
-	GrazeScore = PlayerObj->GrazeScore;
-	EraseScore = PlayerObj->EraseScore;
+	// 各スコアを加算していく
+	TimeScore += 1.0 / 60; // 時間経過によるスコア上昇
+	GrazeScore = PlayerObj->GrazeScore; // グレイズスコア読み込み
+	EraseScore = PlayerObj->EraseScore; // ボムによるスコア読み込み
 }
 
 void Screen::MyDraw() {
