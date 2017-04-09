@@ -1,5 +1,12 @@
 #include "stdafx.h"
 
+
+/*
+* キー入力の状態を管理するクラス
+* _gl_KeyControlObject という名前のグローバル変数として実体化しておき、
+* 毎フレーム Update 関数を呼び出し更新する
+* ( グローバル変数なので、どこからでも呼び出せる )
+*/
 KeyControl::KeyControl()
 {
 }

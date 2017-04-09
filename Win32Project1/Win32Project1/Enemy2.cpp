@@ -2,6 +2,12 @@
 #include "Enemy2.h"
 
 
+/*
+* BaseEnemy を継承した敵クラスサンプル。
+  ( ゲーム中では利用していません )
+*/
+
+
 Enemy2::Enemy2(const TCHAR * FileName, mEnemyBullet* obj, PlayerObject* obj2)
 	: BaseEnemy(FileName, obj, obj2) {}
 

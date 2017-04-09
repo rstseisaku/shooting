@@ -44,7 +44,6 @@ void mGameObject::MyDraw()
 		if ((*itr)->ObjectDeleteFlag) continue;
 		(*itr)->MyDraw();
 	}
-	// DrawFormatString(x, y, GetColor(0, 255, 255), _T("Obj”[%d]"),  ObjectList.size() ); // •¶š‚ğ•`‰æ‚·‚é
 }
 
 void mGameObject::AddObject(BaseObject *obj)
