@@ -77,10 +77,11 @@ void mEnemyBullet::MyDraw()
 		itr++;
 	}
 
+	/*
 	if (DEBUG) {
 		DrawFormatString(45, 45, GetColor(0, 255, 255), _T("’e” %d"), ObjectList.size()); // •¶š‚ğ•`‰æ‚·‚é
 		DrawFormatString(45, 65, GetColor(0, 255, 255), _T("ƒOƒŒƒCƒY/ƒ{ƒ€ %d,%lf"), SetGrazeScore, SetEraseScore); // •¶š‚ğ•`‰æ‚·‚é
-	}
+	}*/
 }
 
 // BulletPattern‚É]‚Á‚Ä’e–‹‚ğ¶¬
@@ -136,10 +137,12 @@ int mEnemyBullet::ColEllipsPoint(double PlayerX, double PlayerY, BaseObject2D* E
 	double After_x = Ofs_x*cos(Elp->Angle) + Ofs_y*sin(Elp->Angle);
 	double After_y = ElpSizeX / ElpSizeY * (-Ofs_x*sin(Elp->Angle) + Ofs_y*cos(Elp->Angle));
 
+	/*
 	if (DEBUG) {
 		DrawFormatString(5, 35, GetColor(0, 255, 255), _T("dist %f"), After_x*After_x + After_y*After_y); // •¶š‚ğ•`‰æ‚·‚é
 		DrawFormatString(305, 35, GetColor(0, 255, 255), _T("elp(x,y) %f,%f"), Elp->CenterX, Elp->CenterY); // •¶š‚ğ•`‰æ‚·‚é
 	}
+	*/
 
 	// Œ´“_‚©‚çˆÚ“®Œã“_‚Ü‚Å‚Ì‹——£‚ğZo
 	if (After_x*After_x + After_y*After_y <= ElpSizeX*ElpSizeX) {

@@ -82,7 +82,7 @@ void PlayerObject::MyUpdate()
 	if (UsingBom == TRUE) {
 		for (auto itr = EnemyBullet->ObjectList.begin(); itr != EnemyBullet->ObjectList.end(); ++itr) {
 			if ((*itr)->ObjectDeleteFlag) continue;
-			int Hit = ColEllipsPoint(CenterX, CenterY, (BaseObject2D*)(*itr));
+			int Hit = ColEllipsPoint(BomX, BomY, (BaseObject2D*)(*itr));
 			if (Hit == 1) {
 				((BaseObject2D*)(*itr))->Fadeout = 60; // 60フレームかけて弾をフェードアウト消去
 				((BaseObject2D*)(*itr))->NoHitFlag = true; // 当たり判定の除去
